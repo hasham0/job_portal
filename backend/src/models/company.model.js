@@ -9,6 +9,7 @@ const companySchema = new Schema(
             required: [true, "Name is required"],
             minLength: [3, "Name must be at least 3 characters"],
             maxLength: [50, "Name must be at most 50 characters"],
+            unique: true,
         },
         description: {
             type: String,
@@ -22,7 +23,7 @@ const companySchema = new Schema(
         logo: {
             type: String,
         },
-        created_by: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: [true, "User ID is required"],

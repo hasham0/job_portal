@@ -11,12 +11,14 @@ import {
 import { cookieOptions, ACCESS_TOKEN } from "../constant.js";
 import { validationResult } from "express-validator";
 
-const register = asyncHandler(async (request, response) => {
+const registerUser = asyncHandler(async (request, response) => {
     // Validate request
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
         throw new ValidationError(errors.array());
     }
+
+    // extract data
     const { fullname, email, phoneNumber, password, role } = request.body;
 
     // check if user already exists with this email
@@ -34,27 +36,29 @@ const register = asyncHandler(async (request, response) => {
         role,
     });
 
-    response.status(200).json({ message: "User registered successfully" });
+    return response
+        .status(200)
+        .json({ message: "User registered successfully" });
 });
 
-const login = asyncHandler(async (request, response) => {
+const loginUser = asyncHandler(async (request, response) => {
     // Validate request
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
         throw new ValidationError(errors.array());
     }
+
+    // extract data
     const { email, password, role } = request.body;
 
     // check and validate email
     const isUserExists = await userFindService(email, "+password");
-
     if (!isUserExists) {
         throw new CustomError("User not exists with this email", 400);
     }
 
     // check and validate password
     const isPasswordMatch = await isUserExists.isPasswordCorrect(password);
-
     if (!isPasswordMatch) {
         throw new CustomError("Invalid password", 400);
     }
@@ -71,7 +75,7 @@ const login = asyncHandler(async (request, response) => {
     const userObject = Object.assign({}, isUserExists.toObject());
     delete userObject.password;
 
-    response
+    return response
         .status(200)
         .cookie(ACCESS_TOKEN, token, cookieOptions)
         .json({
@@ -80,21 +84,21 @@ const login = asyncHandler(async (request, response) => {
         });
 });
 
-const logout = asyncHandler((request, response) => {
+const logoutUser = asyncHandler((request, response) => {
     return response
         .status(200)
         .clearCookie(ACCESS_TOKEN, "", { maxAge: 0 })
         .json({ message: "Logout successfully" });
 });
 
-const updateProfile = asyncHandler(async (request, response) => {
+const updateUserProfile = asyncHandler(async (request, response) => {
     // Validate request
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
         throw new ValidationError(errors.array());
     }
 
-    // extract data and user id
+    // extract data , files and user id from request
     const { fullname, email, role, bio, skills } = request.body;
     const { _id } = request.user;
     const files = request.files;
@@ -115,4 +119,4 @@ const updateProfile = asyncHandler(async (request, response) => {
         .status(200)
         .json({ message: "Profile updated successfully", user: updatedUser });
 });
-export { register, login, logout, updateProfile };
+export { registerUser, loginUser, logoutUser, updateUserProfile };
