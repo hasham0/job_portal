@@ -11,6 +11,8 @@ import cookieParser from "cookie-parser";
 // import api routes
 import userRoutes from "./routes/user.route.js";
 import companyRoutes from "./routes/company.route.js";
+import jobRoutes from "./routes/job.route.js";
+import applicationRoutes from "./routes/application.route.js";
 
 // import global level error handle middlewares
 import errorMiddleware from "./middlewares/error.middleware.js";
@@ -35,6 +37,8 @@ app.use(
 // set routes
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/companies", companyRoutes);
+app.use("/api/v1/jobs", jobRoutes);
+app.use("/api/v1/applications", applicationRoutes);
 
 // set global level error handling middlwere
 app.use(errorMiddleware);

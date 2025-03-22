@@ -1,8 +1,7 @@
 import User from "../../models/user.model.js";
 
-const userFindService = async (email, passwordOption = "-password") => {
-    return await User.findOne({ email }).select(passwordOption);
-};
+const userFindService = async (email, passwordOption = "-password") =>
+    await User.findOne({ email }).select(passwordOption);
 
 const userCreateService = async ({
     fullname,

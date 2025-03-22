@@ -28,13 +28,17 @@ const jobSchema = new Schema(
             type: Number,
             required: [true, "Salary is required"],
         },
+        experience: {
+            type: Number,
+            required: [true, "Experience is required"],
+        },
         location: {
             type: String,
             required: [true, "Location is required"],
             minLength: [3, "Location must be at least 3 characters"],
             maxLength: [50, "Location must be at most 50 characters"],
         },
-        job_type: {
+        jobType: {
             type: String,
             required: [true, "Job Type is required"],
             minLength: [3, "Job Type must be at least 3 characters"],
