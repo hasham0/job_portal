@@ -58,7 +58,7 @@ const jobSchema = new Schema(
             ref: "User",
             required: [true, "User is required"],
         },
-        application: [
+        applications: [
             {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "Application",

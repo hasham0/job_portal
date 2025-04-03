@@ -9,10 +9,10 @@ const applicationSchema = new Schema(
             ref: "Job",
             required: [true, "Job is required"],
         },
-        application: {
+        applicant: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Application",
-            required: [true, "Application is required"],
+            ref: "User",
+            required: [true, "User ID is required"],
         },
         status: {
             type: String,
