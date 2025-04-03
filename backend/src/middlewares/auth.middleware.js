@@ -2,7 +2,7 @@ import "dotenv/config";
 import jwt from "jsonwebtoken";
 import asyncHandler from "./async-handler.middleware.js";
 import { ACCESS_TOKEN } from "../constant.js";
-import { CustomError } from "../lib/utils/customize-error-messages.js";
+import { CustomError } from "../lib/utils/customize-error-messages.util.js";
 import User from "../models/user.model.js";
 
 const authMiddleware = asyncHandler(async (request, response, next) => {

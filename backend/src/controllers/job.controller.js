@@ -9,7 +9,7 @@ import {
 import {
     CustomError,
     ValidationError,
-} from "../lib/utils/customize-error-messages.js";
+} from "../lib/utils/customize-error-messages.util.js";
 
 const allJobs = asyncHandler(async (request, response) => {
     const { keyword } = request.query;
@@ -74,7 +74,7 @@ const postJob = asyncHandler((request, response) => {
         salary,
         location,
         jobType,
-        experience: Number(experience),
+        experienceLevel: Number(experience),
         position,
         company: companyId,
         created_by: userId,
@@ -82,7 +82,7 @@ const postJob = asyncHandler((request, response) => {
     });
 
     return response
-        .status(200)
+        .status(201)
         .json({ message: "Job created successfully", job });
 });
 

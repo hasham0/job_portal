@@ -28,7 +28,7 @@ const jobSchema = new Schema(
             type: Number,
             required: [true, "Salary is required"],
         },
-        experience: {
+        experienceLevel: {
             type: Number,
             required: [true, "Experience is required"],
         },

@@ -2,7 +2,7 @@ import asyncHandler from "../middlewares/async-handler.middleware.js";
 import {
     CustomError,
     ValidationError,
-} from "../lib/utils/customize-error-messages.js";
+} from "../lib/utils/customize-error-messages.util.js";
 import { validationResult } from "express-validator";
 import {
     companyFindService,

@@ -2,7 +2,7 @@ import asyncHandler from "../middlewares/async-handler.middleware.js";
 import {
     CustomError,
     ValidationError,
-} from "../lib/utils/customize-error-messages.js";
+} from "../lib/utils/customize-error-messages.util.js";
 import {
     userCreateService,
     userFindService,
@@ -79,7 +79,7 @@ const loginUser = asyncHandler(async (request, response) => {
         .status(200)
         .cookie(ACCESS_TOKEN, token, cookieOptions)
         .json({
-            message: `Welcome back ${isUserExists.fullname}`,
+            message: `Welcome back ${userObject.fullname}`,
             user: userObject,
         });
 });
@@ -99,7 +99,7 @@ const updateUserProfile = asyncHandler(async (request, response) => {
     }
 
     // extract data , files and user id from request
-    const { fullname, email, role, bio, skills } = request.body;
+    const { fullname, email, phoneNumber, role, bio, skills } = request.body;
     const { _id } = request.user;
     const files = request.files;
 
@@ -110,6 +110,7 @@ const updateUserProfile = asyncHandler(async (request, response) => {
         _id,
         fullname,
         email,
+        phoneNumber,
         role,
         bio,
         skills

@@ -23,6 +23,7 @@ const UpdateProfileService = async (
     _id,
     fullname,
     email,
+    phoneNumber,
     role,
     bio,
     skills
@@ -32,6 +33,7 @@ const UpdateProfileService = async (
         {
             fullname,
             email,
+            phoneNumber,
             role,
             profile: {
                 bio,
