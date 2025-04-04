@@ -6,6 +6,7 @@ import {
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LogOut, User2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -71,10 +72,14 @@ const Navbar = ({}: Props) => {
             </>
           ) : (
             <div className="flex items-center gap-2">
-              <Button variant={"outline"}>Login</Button>
-              <Button className="bg-[#6A3BC2] hover:bg-[#5b38a6]">
-                Sign Up
-              </Button>
+              <Link to={"/login"}>
+                <Button variant={"outline"}>Login</Button>
+              </Link>
+              <Link to={"/signup"}>
+                <Button className="bg-[#6A3BC2] hover:bg-[#5b38a6]">
+                  Sign Up
+                </Button>
+              </Link>
             </div>
           )}
         </div>
