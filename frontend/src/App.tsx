@@ -1,7 +1,15 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Navbar from "./components/shared/navbar";
+
 function App() {
   return (
     <>
-      <h1>home page</h1>
+      <Navbar />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<div>Home</div>} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
