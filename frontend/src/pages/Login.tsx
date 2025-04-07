@@ -16,10 +16,14 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import axiosInstance from "@/lib/axios";
 import { toast } from "sonner";
 import { USER_API_ENDPOINT } from "@/utils/constant";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { Loader2 } from "lucide-react";
 
 type Props = {};
 
 export default function Login({}: Props) {
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const form = useForm<LoginSchemaTS>({
     resolver: zodResolver(loginSchema),
@@ -36,7 +40,7 @@ export default function Login({}: Props) {
       formData.append("email", values.email);
       formData.append("password", values.password);
       formData.append("role", values.role);
-
+      dispatch({ type: "setLoading", payload: true });
       const response = await axiosInstance.post(
         `${USER_API_ENDPOINT}/login`,
         formData,
@@ -52,6 +56,8 @@ export default function Login({}: Props) {
       }
     } catch (error) {
       console.error("Error during login:", error);
+    } finally {
+      dispatch({ type: "setLoading", payload: false });
     }
   };
 
@@ -131,9 +137,20 @@ export default function Login({}: Props) {
               </FormItem>
             )}
           />
-          <Button className="w-full" type="submit">
-            Sign Up
-          </Button>
+          {loading ? (
+            <>
+              <Button className="w-full" type="submit">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <span>Please wait...</span>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button className="w-full" type="submit">
+                Login
+              </Button>
+            </>
+          )}
           <span className="-mt-3 flex justify-center space-x-2 text-base">
             <p>Don't have an account?</p>
             <Link to="/signup" className="text-blue-500 hover:underline">

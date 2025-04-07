@@ -17,10 +17,14 @@ import { ChangeEvent } from "react";
 import axiosInstance from "@/lib/axios";
 import { USER_API_ENDPOINT } from "@/utils/constant";
 import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 
 type Props = {};
 
 export default function SignUp({}: Props) {
+  const dispatch = useAppDispatch();
+  const { loading } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const form = useForm<SignUpSchemaTS>({
     resolver: zodResolver(signUpSchema),
@@ -43,6 +47,8 @@ export default function SignUp({}: Props) {
       formData.append("phoneNumber", values.phoneNumber);
       formData.append("role", values.role);
       formData.append("file", values.profilePicture);
+      dispatch({ type: "setLoading", payload: true });
+
       const response = await axiosInstance.post(
         `${USER_API_ENDPOINT}/register`,
         formData,
@@ -62,6 +68,8 @@ export default function SignUp({}: Props) {
       }
     } catch (error) {
       console.error("Error during sign up:", error);
+    } finally {
+      dispatch({ type: "setLoading", payload: false });
     }
   };
 
@@ -205,9 +213,20 @@ export default function SignUp({}: Props) {
               </FormItem>
             )}
           />
-          <Button className="w-full" type="submit">
-            Sign Up
-          </Button>
+          {loading ? (
+            <>
+              <Button className="w-full" type="submit">
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                <span>Please wait...</span>
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button className="w-full" type="submit">
+                SignUp
+              </Button>
+            </>
+          )}
           <span className="-mt- flex justify-center space-x-2 text-base">
             <p>Already have an account?</p>
             <Link to="/login" className="text-blue-500 hover:underline">
