@@ -43,7 +43,6 @@ export default function SignUp({}: Props) {
       formData.append("phoneNumber", values.phoneNumber);
       formData.append("role", values.role);
       formData.append("file", values.profilePicture);
-
       const response = await axiosInstance.post(
         `${USER_API_ENDPOINT}/register`,
         formData,
@@ -51,6 +50,7 @@ export default function SignUp({}: Props) {
           headers: {
             "Content-Type": "multipart/form-data",
           },
+          method: "POST",
           withCredentials: true,
         },
       );

@@ -48,7 +48,7 @@ export default function Login({}: Props) {
         toast.success(response.data.message, {
           duration: 3000,
         });
-        navigate("/login");
+        navigate("/");
       }
     } catch (error) {
       console.error("Error during login:", error);

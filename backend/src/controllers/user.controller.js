@@ -20,6 +20,8 @@ const registerUser = asyncHandler(async (request, response) => {
 
     // extract data
     const { fullname, email, phoneNumber, password, role } = request.body;
+    const file = request.file;
+    console.log("🚀 ~ registerUser ~ file:", file);
 
     // check if user already exists with this email
     const isUserExists = await userFindService(email);
