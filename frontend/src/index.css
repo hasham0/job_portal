@@ -110,6 +110,10 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@theme {
+  --color-bermuda: #6a3bc2;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

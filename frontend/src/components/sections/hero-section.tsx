@@ -34,7 +34,7 @@ const HeroSection = ({}: Props) => {
         </span>
         <h1 className="text-4xl font-bold">
           Search, Apply & <br />
-          Get Your <span className="text-[#6A3BC2]">Dream Job</span>
+          Get Your <span className="text-bermuda">Dream Job</span>
         </h1>
         <p>
           "Empowering your journey from ambition to achievement—search, apply,
@@ -56,7 +56,7 @@ const HeroSection = ({}: Props) => {
                   <Input
                     placeholder="Enter your keyword"
                     type="text"
-                    className="m-auto w-[400px] max-w-2xl rounded-md border-2 border-gray-300 bg-gray-100 px-4 py-2 text-lg focus:border-[#6A3BC2] focus:outline-none"
+                    className="focus:border-burmuda m-auto w-[400px] max-w-2xl rounded-md border-2 border-gray-300 bg-gray-100 px-4 py-2 text-lg focus:outline-none"
                     {...field}
                   />
                 </FormControl>
@@ -65,7 +65,7 @@ const HeroSection = ({}: Props) => {
             )}
           />
           <Button
-            className="rounded-md bg-[#6A3BC2] hover:bg-[#5b38a6]"
+            className="bg-bermuda rounded-md hover:bg-[#5b38a6]"
             type="submit"
           >
             <Search className="size-5" />

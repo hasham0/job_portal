@@ -76,7 +76,7 @@ const Navbar = ({}: Props) => {
                 <Button variant={"outline"}>Login</Button>
               </Link>
               <Link to={"/signup"}>
-                <Button className="bg-[#6A3BC2] hover:bg-[#5b38a6]">
+                <Button className="bg-bermuda hover:bg-[#5b38a6]">
                   Sign Up
                 </Button>
               </Link>
