@@ -13,7 +13,7 @@ type Props = {};
 const Navbar = ({}: Props) => {
   const user = false;
   return (
-    <div className="bg-white px-4">
+    <header className="bg-white px-4">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between">
         <div className="">
           <h1 className="text-2xl font-bold">
@@ -84,7 +84,7 @@ const Navbar = ({}: Props) => {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
