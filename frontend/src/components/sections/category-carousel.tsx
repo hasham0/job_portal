@@ -6,7 +6,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import category from "@/utils/category-data";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 
 type Props = {};
 

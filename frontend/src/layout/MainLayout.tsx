@@ -8,7 +8,9 @@ export default function MainLayout({}: Props) {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <main className="min-h-screen">
+        <Outlet />
+      </main>
       <Footer />
     </>
   );

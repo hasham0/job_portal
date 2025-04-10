@@ -15,16 +15,22 @@ const Navbar = ({}: Props) => {
   return (
     <header className="bg-white px-4">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between">
-        <div className="">
+        <div>
           <h1 className="text-2xl font-bold">
             Job <span className="text-[#F83002]">Portal</span>
           </h1>
         </div>
         <div className="flex items-center gap-12">
           <ul className="flex items-center gap-5 font-medium">
-            <li>Home</li>
-            <li>Job</li>
-            <li>Browse</li>
+            <li>
+              <Link to={"/"}>Home</Link>
+            </li>
+            <li>
+              <Link to={"/jobs"}>Jobs</Link>
+            </li>
+            <li>
+              <Link to={"/browse"}>Browse</Link>
+            </li>
           </ul>
           {user ? (
             <>
@@ -45,7 +51,7 @@ const Navbar = ({}: Props) => {
                         alt="@shadcn"
                       />
                     </Avatar>
-                    <div className="">
+                    <div>
                       <h4 className="font-medium">Hasham Saleem</h4>
                       <p className="text-muted-foreground text-sm">
                         Lorem ipsum, dolor sit amet consectetur adipisicing

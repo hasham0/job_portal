@@ -5,11 +5,11 @@ type Props = {};
 const LatestJobCards = ({}: Props) => {
   return (
     <div className="cursor-pointer rounded-md border border-gray-200 bg-white p-5 shadow-xl">
-      <div className="">
+      <div>
         <h1 className="text-lg font-medium">Company Name</h1>
         <p className="text-sm text-gray-500">Pakistan</p>
       </div>
-      <div className="">
+      <div>
         <h1 className="my-2 text-lg font-bold">Job Title</h1>
         <p className="text-sm text-gray-600">
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolor,

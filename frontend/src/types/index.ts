@@ -1,3 +1,8 @@
 type CategoryTS = Array<string>;
 
-export type { CategoryTS };
+type FilterTS = {
+  fitlerType: string;
+  array: Array<string>;
+};
+
+export type { CategoryTS, FilterTS };
