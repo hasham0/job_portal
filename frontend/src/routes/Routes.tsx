@@ -1,4 +1,5 @@
 import MainLayout from "@/layout/MainLayout";
+import Browse from "@/pages/Browse";
 import Home from "@/pages/Home";
 import Jobs from "@/pages/Jobs";
 import Login from "@/pages/Login";
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/jobs",
         element: <Jobs />,
+      },
+      {
+        path: "/browse",
+        element: <Browse />,
       },
       {
         path: "/profile",

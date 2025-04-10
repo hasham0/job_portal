@@ -7,11 +7,12 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LogOut, User2 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "@/redux/hooks/hooks";
 
 type Props = {};
 
 const Navbar = ({}: Props) => {
-  const user = false;
+  const { user } = useAppSelector((state) => state.auth);
   return (
     <header className="bg-white px-4">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between">

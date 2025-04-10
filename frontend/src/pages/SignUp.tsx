@@ -19,6 +19,7 @@ import { USER_API_ENDPOINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { setLoading } from "@/redux/slice/authSlice";
 
 type Props = {};
 
@@ -47,7 +48,7 @@ export default function SignUp({}: Props) {
       formData.append("phoneNumber", values.phoneNumber);
       formData.append("role", values.role);
       formData.append("file", values.profilePicture);
-      dispatch({ type: "setLoading", payload: true });
+      dispatch(setLoading(true));
 
       const response = await axiosInstance.post(
         `${USER_API_ENDPOINT}/register`,
@@ -69,7 +70,7 @@ export default function SignUp({}: Props) {
     } catch (error) {
       console.error("Error during sign up:", error);
     } finally {
-      dispatch({ type: "setLoading", payload: false });
+      dispatch(setLoading(false));
     }
   };
 

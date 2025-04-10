@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { USER_API_ENDPOINT } from "@/utils/constant";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { Loader2 } from "lucide-react";
+import { setLoading, setUser } from "@/redux/slice/authSlice";
 
 type Props = {};
 
@@ -40,7 +41,7 @@ export default function Login({}: Props) {
       formData.append("email", values.email);
       formData.append("password", values.password);
       formData.append("role", values.role);
-      dispatch({ type: "setLoading", payload: true });
+      dispatch(setLoading(true));
       const response = await axiosInstance.post(
         `${USER_API_ENDPOINT}/login`,
         formData,
@@ -49,15 +50,14 @@ export default function Login({}: Props) {
         },
       );
       if (response.data) {
-        toast.success(response.data.message, {
-          duration: 3000,
-        });
+        dispatch(setUser(response.data.user));
+        toast.success(response.data.message);
         navigate("/");
       }
     } catch (error) {
       console.error("Error during login:", error);
     } finally {
-      dispatch({ type: "setLoading", payload: false });
+      dispatch(setLoading(false));
     }
   };
 
