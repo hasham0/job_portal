@@ -11,12 +11,12 @@ const FilterCard = ({}: Props) => {
       <hr className="mt-3" />
       <RadioGroup>
         {fitlerData.map((data, index) => (
-          <div>
+          <div key={index}>
             <h1 className="text-lg font-bold">{data.fitlerType}</h1>
             {data.array.map((item, idx) => {
               const itemId = `id${index}-${idx}`;
               return (
-                <div className="my-2 flex items-center space-x-2">
+                <div key={idx} className="my-2 flex items-center space-x-2">
                   <RadioGroupItem value={item} id={itemId} />
                   <Label htmlFor={itemId}>{item}</Label>
                 </div>

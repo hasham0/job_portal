@@ -2,10 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Bookmark } from "lucide-react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 const Job = ({}: Props) => {
+  const navigate = useNavigate();
   return (
     <div className="mx-4 rounded-md border-gray-100 bg-white p-5 shadow-xl">
       <div className="flex items-center justify-between">
@@ -44,7 +46,9 @@ const Job = ({}: Props) => {
         </Badge>
       </div>
       <div className="mt-4 flex items-center justify-between gap-4">
-        <Button>Details</Button>
+        <Button onClick={() => navigate(`/description/${12345}`)}>
+          Details
+        </Button>
         <Button className="bg-bermuda hover:bg-[#5b38a6]">
           Save Fot Later
         </Button>
