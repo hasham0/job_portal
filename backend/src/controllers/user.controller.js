@@ -7,9 +7,12 @@ import {
     userCreateService,
     userFindService,
     UpdateProfileService,
+    userFindServiceById,
 } from "../lib/services/user.service.js";
 import { cookieOptions, ACCESS_TOKEN } from "../constant.js";
 import { validationResult } from "express-validator";
+import getDataUri from "../lib/utils/data-uri.util.js";
+import cloudinary from "../lib/utils/cloudinary.util.js";
 
 const registerUser = asyncHandler(async (request, response) => {
     // Validate request
@@ -21,7 +24,13 @@ const registerUser = asyncHandler(async (request, response) => {
     // extract data
     const { fullname, email, phoneNumber, password, role } = request.body;
     const file = request.file;
-    console.log("🚀 ~ registerUser ~ file:", file);
+    const fileUri = getDataUri(file);
+    const cloudinaryResponse = await cloudinary.uploader.upload(
+        fileUri.content,
+        {
+            folder: "job-portal",
+        }
+    );
 
     // check if user already exists with this email
     const isUserExists = await userFindService(email);
@@ -36,6 +45,7 @@ const registerUser = asyncHandler(async (request, response) => {
         phoneNumber,
         password,
         role,
+        profilePhoto: cloudinaryResponse.secure_url,
     });
 
     return response
@@ -90,7 +100,7 @@ const logoutUser = asyncHandler((request, response) => {
     return response
         .status(200)
         .clearCookie(ACCESS_TOKEN, "", { maxAge: 0 })
-        .json({ message: "Logout successfully" });
+        .json({ message: "Logout successfully", user: null });
 });
 
 const updateUserProfile = asyncHandler(async (request, response) => {
@@ -103,9 +113,23 @@ const updateUserProfile = asyncHandler(async (request, response) => {
     // extract data , files and user id from request
     const { fullname, email, phoneNumber, role, bio, skills } = request.body;
     const { _id } = request.user;
-    const files = request.files;
+
+    // check if user exit or not
+    const isUserExists = await userFindServiceById(_id);
+    if (!isUserExists) {
+        throw new CustomError("User not exists with this email", 400);
+    }
+
+    const resumefile = request.file;
+    const resumefileUri = getDataUri(resumefile);
 
     // cloudinary upload
+    const cloudinaryResponse = await cloudinary.uploader.upload(
+        resumefileUri.content,
+        {
+            folder: "job-portal",
+        }
+    );
 
     // update profile
     const updatedUser = await UpdateProfileService(
@@ -115,7 +139,10 @@ const updateUserProfile = asyncHandler(async (request, response) => {
         phoneNumber,
         role,
         bio,
-        skills
+        skills,
+        cloudinaryResponse.secure_url,
+        resumefile.originalname,
+        isUserExists.profile.profilePhoto
     );
 
     return response

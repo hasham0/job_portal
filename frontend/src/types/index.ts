@@ -12,8 +12,11 @@ interface UserTS {
   phoneNumber: number;
   role: "student" | "recruiter";
   profile: {
-    skills: Array<string>;
-    profilePhoto: string;
+    skills?: Array<string>;
+    bio?: string;
+    resume?: string;
+    profilePhoto?: string;
+    resumeOriginalName: string;
   };
 }
 

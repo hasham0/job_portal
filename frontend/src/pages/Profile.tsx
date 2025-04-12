@@ -1,15 +1,19 @@
 import AppliedJobsTable from "@/components/sections/applied-jobs-table";
+import UpdateProfileDialog from "@/components/sections/update-profile-dialog";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useAppSelector } from "@/redux/hooks/hooks";
 import { Contact, Mail, Pen } from "lucide-react";
+import { useState } from "react";
 
 type Props = {};
 
-const Skills: Array<string> = ["HTML", "CSS", "JS", "React"];
-const isResumeExist = true;
 export default function Profile({}: Props) {
+  const [open, setOpen] = useState<boolean>(false);
+  const { user } = useAppSelector((state) => state.auth);
+
   return (
     <>
       <div className="mx-auto my-5 max-w-5xl rounded-2xl border border-gray-200 bg-white p-8">
@@ -19,32 +23,33 @@ export default function Profile({}: Props) {
               <AvatarImage src="https://github.com/shadcn.png" alt="profile" />
             </Avatar>
             <div>
-              <h1 className="text-xl font-medium">Full Name</h1>
-              <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-                Voluptatum, autem.
-              </p>
+              <h1 className="text-xl font-medium">{user?.fullname}</h1>
+              <p>{user?.profile.bio}</p>
             </div>
           </div>
-          <Button className="text-right" variant={"outline"}>
+          <Button
+            onClick={() => setOpen(true)}
+            className="text-right"
+            variant={"outline"}
+          >
             <Pen />
           </Button>
         </div>
         <div className="my-5 space-y-2">
           <div className="flex items-center gap-3">
             <Mail />
-            <span>Hasham@gmail.com</span>
+            <span>{user?.email}</span>
           </div>
           <div className="flex items-center gap-3">
             <Contact />
-            <span>02419444038</span>
+            <span>{user?.phoneNumber}</span>
           </div>
         </div>
         <div className="my-5">
           <h1>Skills</h1>
           <div className="flex items-center gap-1">
-            {Skills.length !== 0 ? (
-              Skills.map((item: string, index) => (
+            {user?.profile?.skills && user.profile.skills.length > 0 ? (
+              user.profile.skills.map((item: string, index) => (
                 <Badge key={index}>{item}</Badge>
               ))
             ) : (
@@ -54,13 +59,13 @@ export default function Profile({}: Props) {
         </div>
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label className="text-base font-bold">Resume</Label>
-          {isResumeExist ? (
+          {user?.profile.resume && user?.profile.resumeOriginalName ? (
             <a
-              href="/resume.pdf"
+              href={user?.profile.resume}
               target="_blank"
               className="cursor-pointer text-blue-500 hover:underline"
             >
-              Hasham Saleem
+              {user?.profile.resumeOriginalName}
             </a>
           ) : (
             <span>No Resume</span>
@@ -71,6 +76,7 @@ export default function Profile({}: Props) {
         <h1 className="my-5 text-lg font-bold">Applied Jobs</h1>
         <AppliedJobsTable />
       </div>
+      <UpdateProfileDialog open={open} setOpen={setOpen} />
     </>
   );
 }

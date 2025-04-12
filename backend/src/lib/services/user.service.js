@@ -3,12 +3,14 @@ import User from "../../models/user.model.js";
 const userFindService = async (email, passwordOption = "-password") =>
     await User.findOne({ email }).select(passwordOption);
 
+const userFindServiceById = async (_id) => await User.findById({ _id });
 const userCreateService = async ({
     fullname,
     email,
     phoneNumber,
     password,
     role,
+    profilePhoto,
 }) => {
     return await User.create({
         fullname,
@@ -16,6 +18,9 @@ const userCreateService = async ({
         phoneNumber: Number(phoneNumber),
         password,
         role: role || "student",
+        profile: {
+            profilePhoto,
+        },
     });
 };
 
@@ -26,9 +31,12 @@ const UpdateProfileService = async (
     phoneNumber,
     role,
     bio,
-    skills
+    skills,
+    resume,
+    resumeOriginalName,
+    profilePhoto
 ) => {
-    return await User.findOneAndUpdate(
+    return await User.findByIdAndUpdate(
         { _id },
         {
             fullname,
@@ -37,10 +45,18 @@ const UpdateProfileService = async (
             role,
             profile: {
                 bio,
-                skills: skills.split(","),
+                skills: skills.split(/[,\s]+/),
+                resume,
+                resumeOriginalName,
+                profilePhoto,
             },
         },
         { new: true }
     );
 };
-export { userFindService, userCreateService, UpdateProfileService };
+export {
+    userFindService,
+    userFindServiceById,
+    userCreateService,
+    UpdateProfileService,
+};

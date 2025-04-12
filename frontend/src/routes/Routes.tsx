@@ -6,6 +6,7 @@ import Jobs from "@/pages/Jobs";
 import Login from "@/pages/Login";
 import Profile from "@/pages/Profile";
 import SignUp from "@/pages/SignUp";
+import ProtectedProfileRoute from "@/protected/protected-profile-wrapper";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -38,8 +39,8 @@ const router = createBrowserRouter([
         element: <Browse />,
       },
       {
-        path: "/profile",
-        element: <Profile />,
+        element: <ProtectedProfileRoute />,
+        children: [{ path: "/profile", element: <Profile /> }],
       },
     ],
   },

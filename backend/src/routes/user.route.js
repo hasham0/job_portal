@@ -54,6 +54,7 @@ router
     .post(
         [
             authMiddleware,
+            upload.single("resume"),
             body("fullname")
                 .isLength({ min: 3 })
                 .withMessage("fullname must be atlest 3 character long"),
@@ -63,8 +64,8 @@ router
                 .optional()
                 .isIn(["student", "recruiter", "admin"])
                 .withMessage("Invalid role"),
-            body("profile.bio").isString().withMessage("Invalid bio"),
-            body("profile.skills").isArray().withMessage("Invalid skills"),
+            body("bio").isString().withMessage("Invalid bio"),
+            body("skills").isString().withMessage("Invalid skills"),
         ],
         updateUserProfile
     );

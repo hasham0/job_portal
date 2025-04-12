@@ -6,13 +6,40 @@ import {
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LogOut, User2 } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useAppSelector } from "@/redux/hooks/hooks";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
+import { setUser } from "@/redux/slice/authSlice";
+import axiosInstance from "@/lib/axios";
+import { USER_API_ENDPOINT } from "@/utils/constant";
+import { toast } from "sonner";
 
 type Props = {};
 
 const Navbar = ({}: Props) => {
   const { user } = useAppSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = async () => {
+    try {
+      const response = await axiosInstance.post(`${USER_API_ENDPOINT}/logout`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+        withCredentials: true,
+      });
+      if (response.data) {
+        dispatch(setUser(response.data.user));
+        toast.success(response.data.message, {
+          duration: 3000,
+        });
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error("Error during sign up:", error);
+    }
+  };
   return (
     <header className="bg-white px-4">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between">
@@ -39,8 +66,8 @@ const Navbar = ({}: Props) => {
                 <PopoverTrigger asChild>
                   <Avatar className="cursor-pointer">
                     <AvatarImage
-                      src="https://github.com/shadcn.png"
-                      alt="@shadcn"
+                      src={user.profile.profilePhoto}
+                      alt={user.fullname}
                     />
                   </Avatar>
                 </PopoverTrigger>
@@ -48,27 +75,34 @@ const Navbar = ({}: Props) => {
                   <div className="flex gap-4 space-y-2">
                     <Avatar>
                       <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        alt="@shadcn"
+                        src={user.profile.profilePhoto}
+                        alt={user.fullname}
                       />
                     </Avatar>
                     <div>
-                      <h4 className="font-medium">Hasham Saleem</h4>
+                      <h4 className="font-medium">{user.fullname}</h4>
                       <p className="text-muted-foreground text-sm">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elit. Earum voluptatibus nostrum dolore.
+                        {user.profile.bio}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-col justify-between p-4 text-gray-600 md:flex-row">
                     <div className="flex w-fit cursor-pointer items-center gap-2">
-                      <Button className="outline-none" variant={"link"}>
+                      <Button
+                        onClick={() => navigate("/profile")}
+                        className="outline-none"
+                        variant={"link"}
+                      >
                         <User2 />
                         View Profile
                       </Button>
                     </div>
                     <div className="flex w-fit cursor-pointer items-center gap-2">
-                      <Button className="outline-none" variant={"default"}>
+                      <Button
+                        onClick={handleLogout}
+                        className="outline-none"
+                        variant={"default"}
+                      >
                         <LogOut />
                         Logout
                       </Button>
