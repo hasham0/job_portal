@@ -28,6 +28,7 @@ const registerUser = asyncHandler(async (request, response) => {
     const cloudinaryResponse = await cloudinary.uploader.upload(
         fileUri.content,
         {
+            resource_type: "image",
             folder: "job-portal",
         }
     );
@@ -127,7 +128,9 @@ const updateUserProfile = asyncHandler(async (request, response) => {
     const cloudinaryResponse = await cloudinary.uploader.upload(
         resumefileUri.content,
         {
+            resource_type: "raw",
             folder: "job-portal",
+            type: "public",
         }
     );
 

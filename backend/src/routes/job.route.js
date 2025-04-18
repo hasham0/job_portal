@@ -13,16 +13,11 @@ import {
 
 const router = Router();
 
-router.route("/").get([authMiddleware], allJobs);
+// router.use([authMiddleware]);
+router.route("/").get(allJobs);
 router
     .route("/oneJob/:_id")
-    .get(
-        [
-            authMiddleware,
-            param("_id").isMongoId().withMessage("Invalid job id"),
-        ],
-        getJobById
-    );
+    .get([param("_id").isMongoId().withMessage("Invalid job id")], getJobById);
 router.route("/adminJob").get([authMiddleware, adminMiddleware], getAdminJobs);
 router
     .route("/postJob")

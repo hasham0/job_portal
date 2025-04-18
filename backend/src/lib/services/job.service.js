@@ -1,7 +1,7 @@
 import Job from "../../models/job.model.js";
 
 const createJobService = async (data) => await Job.create(data);
-const allJobsService = async (keyword) => {
+const allJobsService = async (keyword = "") => {
     return await Job.find({
         $or: [
             { title: { $regex: keyword, $options: "i" } },

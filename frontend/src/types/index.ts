@@ -19,5 +19,30 @@ interface UserTS {
     resumeOriginalName: string;
   };
 }
+interface ApplicationTS {
+  _id: string;
+  job: string;
+  applicant: string;
+  status: "pending" | "accepted" | "rejected";
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
 
-export type { CategoryTS, FilterTS, UserTS };
+interface JobsTS {
+  _id: string;
+  title: string;
+  description: string;
+  requirments: Array<string>;
+  salary: number;
+  experienceLevel: number;
+  location: string;
+  jobType: string;
+  position: number;
+  company: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  applications: (string | { applicant: string })[];
+  created_by: string;
+}
+
+export type { CategoryTS, FilterTS, UserTS, JobsTS, ApplicationTS };
