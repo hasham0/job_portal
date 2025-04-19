@@ -14,9 +14,9 @@ const Job = ({ job }: Props) => {
     <div className="mx-4 rounded-md border-gray-100 bg-white p-5 shadow-xl">
       <div className="flex items-center justify-between">
         <p>
-          {daysAgoFunction(job.createdAt) === 0
+          {daysAgoFunction(new Date(job.createdAt)) === 0
             ? "Today"
-            : daysAgoFunction(job.createdAt) + " days ago"}
+            : daysAgoFunction(new Date(job.createdAt)) + " days ago"}
         </p>
         <Button className="rounded-full" variant={"ghost"} size={"icon"}>
           <Bookmark />

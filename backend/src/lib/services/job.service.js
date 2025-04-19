@@ -17,7 +17,7 @@ const allJobsService = async (keyword = "") => {
 const getJobByIdService = async (jobId) =>
     await Job.findById({ _id: jobId })
         .populate({
-            path: "company",
+            path: "applications",
         })
         .sort({ createdAt: -1 });
 

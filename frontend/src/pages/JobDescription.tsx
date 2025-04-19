@@ -20,7 +20,7 @@ export default function JobDescription({}: Props) {
     (singleJobDetails?.applications as ApplicationTS[]).some(
       (application: ApplicationTS) => application.applicant === user?._id,
     ) || false;
-  const [applied, setApplied] = useState(isInitiallyApplied);
+  const [isApplied, setIsApplied] = useState(isInitiallyApplied);
 
   const handleApplyJob = async () => {
     try {
@@ -35,7 +35,7 @@ export default function JobDescription({}: Props) {
         },
       );
       if (response.data) {
-        setApplied(true);
+        setIsApplied(true);
         if (!_id) {
           throw new Error("Job ID is undefined");
         }
@@ -65,6 +65,12 @@ export default function JobDescription({}: Props) {
         );
         if (response.data) {
           dispatch(setJobDetails(response.data.job));
+          setIsApplied(
+            response.data.job.applications.some(
+              (application: ApplicationTS) =>
+                application.applicant === user?._id,
+            ),
+          );
         }
       } catch (error) {
         console.error(error);
@@ -72,7 +78,6 @@ export default function JobDescription({}: Props) {
     };
     fetchJobById();
   }, [_id, user]);
-
   return (
     <div className="mx-auto my-8 max-w-7xl px-6">
       <div className="flex items-center justify-between">
@@ -91,11 +96,11 @@ export default function JobDescription({}: Props) {
           </div>
         </div>
         <Button
-          onClick={!applied ? handleApplyJob : undefined}
-          disabled={applied}
-          className={`rounded-lg ${applied ? "cursor-not-allowed bg-gray-600" : "hover:bg-bermuda bg-[#7209b7]"}`}
+          onClick={!isApplied ? handleApplyJob : undefined}
+          disabled={isApplied}
+          className={`rounded-lg ${isApplied ? "cursor-not-allowed bg-gray-600" : "hover:bg-bermuda bg-[#7209b7]"}`}
         >
-          {applied ? "Applied" : "Apply Now"}
+          {isApplied ? "Applied" : "Apply Now"}
         </Button>
       </div>
       <h1 className="my-4 border-y-2 border-y-gray-400 py-4 text-xl font-medium">
