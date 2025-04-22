@@ -20,6 +20,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { setLoading } from "@/redux/slice/authSlice";
+import { AxiosError } from "axios";
 
 type Props = {};
 
@@ -69,6 +70,13 @@ export default function SignUp({}: Props) {
       }
     } catch (error) {
       console.error("Error during sign up:", error);
+      if (error instanceof AxiosError) {
+        toast.error(
+          error.response?.data?.message || error.message || "sign up failed",
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       dispatch(setLoading(false));
     }

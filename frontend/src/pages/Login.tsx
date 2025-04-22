@@ -19,6 +19,7 @@ import { USER_API_ENDPOINT } from "@/utils/constant";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { Loader2 } from "lucide-react";
 import { setLoading, setUser } from "@/redux/slice/authSlice";
+import { AxiosError } from "axios";
 
 type Props = {};
 
@@ -56,6 +57,13 @@ export default function Login({}: Props) {
       }
     } catch (error) {
       console.error("Error during login:", error);
+      if (error instanceof AxiosError) {
+        toast.error(
+          error.response?.data?.message || error.message || "Login failed",
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     } finally {
       dispatch(setLoading(false));
     }

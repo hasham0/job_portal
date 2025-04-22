@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { setJobDetails } from "@/redux/slice/jobSlice";
 import { ApplicationTS, JobsTS } from "@/types";
 import { APPLICANT_API_ENDPOINT, JOB_API_ENDPOINT } from "@/utils/constant";
+import { AxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "sonner";
@@ -73,7 +74,15 @@ export default function JobDescription({}: Props) {
           );
         }
       } catch (error) {
-        console.error(error);
+        if (error instanceof AxiosError) {
+          toast.error(
+            error.response?.data?.message ||
+              error.message ||
+              "job update failed",
+          );
+        } else {
+          toast.error("An unexpected error occurred");
+        }
       }
     };
     fetchJobById();

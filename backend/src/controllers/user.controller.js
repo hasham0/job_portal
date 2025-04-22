@@ -73,12 +73,12 @@ const loginUser = asyncHandler(async (request, response) => {
     // check and validate password
     const isPasswordMatch = await isUserExists.isPasswordCorrect(password);
     if (!isPasswordMatch) {
-        throw new CustomError("Invalid password", 400);
+        throw new CustomError("Invalid User", 400);
     }
 
     // check and validate role
     if (isUserExists.role !== role) {
-        throw new CustomError("Invalid role", 400);
+        throw new CustomError("Invalid User", 400);
     }
 
     // Generate Auth Token

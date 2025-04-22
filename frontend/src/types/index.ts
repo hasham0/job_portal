@@ -45,4 +45,16 @@ interface JobsTS {
   created_by: string;
 }
 
-export type { CategoryTS, FilterTS, UserTS, JobsTS, ApplicationTS };
+interface CompanyTS {
+  _id: string;
+  name: string;
+  description: string;
+  website: string;
+  location: string;
+  logo: string;
+  userId: UserTS["_id"];
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
+
+export type { CategoryTS, FilterTS, UserTS, JobsTS, ApplicationTS, CompanyTS };

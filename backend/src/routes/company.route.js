@@ -8,6 +8,7 @@ import {
     registerCompany,
     updateCompanyDetails,
 } from "../controllers/company.controller.js";
+import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
@@ -30,6 +31,7 @@ router
     .put(
         [
             authMiddleware,
+            upload.single("file"),
             body("name")
                 .optional()
                 .isLength({ min: 3 })

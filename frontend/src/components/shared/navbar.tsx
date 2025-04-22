@@ -12,6 +12,7 @@ import { setUser } from "@/redux/slice/authSlice";
 import axiosInstance from "@/lib/axios";
 import { USER_API_ENDPOINT } from "@/utils/constant";
 import { toast } from "sonner";
+import { AxiosError } from "axios";
 
 type Props = {};
 
@@ -38,11 +39,18 @@ const Navbar = ({}: Props) => {
       }
     } catch (error) {
       console.error("Error during sign up:", error);
+      if (error instanceof AxiosError) {
+        toast.error(
+          error.response?.data?.message || error.message || "Logout failed",
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
     }
   };
   return (
-    <header className="bg-white px-4">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between">
+    <header className="bg-gray-200 px-4">
+      <div className="mx-auto flex h-16 max-w-4xl items-center justify-between xl:max-w-7xl">
         <div>
           <h1 className="text-2xl font-bold">
             Job <span className="text-[#F83002]">Portal</span>
@@ -50,15 +58,28 @@ const Navbar = ({}: Props) => {
         </div>
         <div className="flex items-center gap-12">
           <ul className="flex items-center gap-5 font-medium">
-            <li>
-              <Link to={"/"}>Home</Link>
-            </li>
-            <li>
-              <Link to={"/jobs"}>Jobs</Link>
-            </li>
-            <li>
-              <Link to={"/browse"}>Browse</Link>
-            </li>
+            {user && user.role === "recruiter" ? (
+              <>
+                <li>
+                  <Link to={"/admin/companies"}>Companies</Link>
+                </li>
+                <li>
+                  <Link to={"/admin/jobs"}>Jobs</Link>
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <Link to={"/"}>Home</Link>
+                </li>
+                <li>
+                  <Link to={"/jobs"}>Jobs</Link>
+                </li>
+                <li>
+                  <Link to={"/browse"}>Browse</Link>
+                </li>
+              </>
+            )}
           </ul>
           {user ? (
             <>
@@ -81,22 +102,25 @@ const Navbar = ({}: Props) => {
                     </Avatar>
                     <div>
                       <h4 className="font-medium">{user.fullname}</h4>
+
                       <p className="text-muted-foreground text-sm">
                         {user.profile.bio}
                       </p>
                     </div>
                   </div>
                   <div className="flex flex-col justify-between p-4 text-gray-600 md:flex-row">
-                    <div className="flex w-fit cursor-pointer items-center gap-2">
-                      <Button
-                        onClick={() => navigate("/profile")}
-                        className="outline-none"
-                        variant={"link"}
-                      >
-                        <User2 />
-                        View Profile
-                      </Button>
-                    </div>
+                    {user.role === "student" && (
+                      <div className="flex w-fit cursor-pointer items-center gap-2">
+                        <Button
+                          onClick={() => navigate("/profile")}
+                          className="outline-none"
+                          variant={"link"}
+                        >
+                          <User2 />
+                          View Profile
+                        </Button>
+                      </div>
+                    )}
                     <div className="flex w-fit cursor-pointer items-center gap-2">
                       <Button
                         onClick={handleLogout}

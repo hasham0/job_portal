@@ -12,6 +12,8 @@ import {
     companiesService,
     updateCompanyDetailsByIdService,
 } from "../lib/services/company.service.js";
+import getDataUri from "../lib/utils/data-uri.util.js";
+import cloudinary from "../lib/utils/cloudinary.util.js";
 
 const registerCompany = asyncHandler(async (request, response) => {
     // Validate request
@@ -23,7 +25,6 @@ const registerCompany = asyncHandler(async (request, response) => {
     // extract data and user id from request
     const { name: companyName } = request.body;
     const { _id: userId } = request.user;
-
     // check if company already exists and validate
     const isCompanyExists = await companyFindService(companyName);
     if (isCompanyExists) {
@@ -32,10 +33,10 @@ const registerCompany = asyncHandler(async (request, response) => {
 
     // create new company
     const newCompany = await companyCreateService({ companyName, userId });
-
-    return response
-        .status(201)
-        .json({ message: "Company created successfully", company: newCompany });
+    return response.status(201).json({
+        message: "Company created successfully",
+        company: newCompany,
+    });
 });
 
 const getCompaniesByUserId = asyncHandler(async (request, response) => {
@@ -87,17 +88,25 @@ const updateCompanyDetails = asyncHandler(async (request, response) => {
     }
     const { name, description, website, location } = request.body;
     const { _id: companyId } = request.params;
-    // const { file } = request.files;
-
+    const { _id: userId } = request.user;
+    const file = request.file;
+    const fileUri = getDataUri(file);
+    const cloudinaryResponse = await cloudinary.uploader.upload(
+        fileUri.content,
+        {
+            resource_type: "image",
+            folder: "job-portal",
+        }
+    );
     const company = await updateCompanyDetailsByIdService(companyId, {
         name,
         description,
         website,
         location,
+        logo: cloudinaryResponse.secure_url,
+        userId,
     });
-    if (!company) {
-        throw new CustomError("Company not found", 404);
-    }
+
     return response
         .status(200)
         .json({ message: "Company updated successfully", company });
