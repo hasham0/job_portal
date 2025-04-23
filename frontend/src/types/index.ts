@@ -38,7 +38,7 @@ interface JobsTS {
   location: string;
   jobType: string;
   position: number;
-  company: string;
+  company: string | CategoryTS;
   createdAt: Date | string;
   updatedAt: Date | string;
   applications: (string | { applicant: string })[];

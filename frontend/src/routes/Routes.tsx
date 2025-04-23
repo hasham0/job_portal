@@ -1,7 +1,8 @@
-import MainLayout from "@/layout/MainLayout";
-import Companies from "@/pages/admin/Companies";
 import CompaniesCreate from "@/pages/admin/CompaniesCreate";
+import Companies from "@/pages/admin/Companies";
 import Company from "@/pages/admin/Company";
+import JobsPanel from "@/pages/admin/JobsPanel";
+import MainLayout from "@/layout/MainLayout";
 import Browse from "@/pages/Browse";
 import Home from "@/pages/Home";
 import JobDescription from "@/pages/JobDescription";
@@ -12,6 +13,8 @@ import SignUp from "@/pages/SignUp";
 import ProtectedAdminWrapper from "@/protected/protected-admin-wrapper";
 import ProtectedProfileRoute from "@/protected/protected-profile-wrapper";
 import { createBrowserRouter } from "react-router-dom";
+import JobUpdate from "@/pages/admin/JobUpdate";
+import JobsCreate from "@/pages/admin/JobsCreate";
 
 const router = createBrowserRouter([
   {
@@ -55,6 +58,9 @@ const router = createBrowserRouter([
             element: <CompaniesCreate />,
           },
           { path: "/admin/company/:_id", element: <Company /> },
+          { path: "/admin/jobs", element: <JobsPanel /> },
+          { path: "/admin/jobs/create", element: <JobsCreate /> },
+          { path: "/admin/jobDetails/:_id", element: <JobUpdate /> },
         ],
       },
     ],

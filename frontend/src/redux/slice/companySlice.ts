@@ -1,15 +1,17 @@
 import { CompanyTS } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { set } from "react-hook-form";
 
 // Define a type for the slice state
 interface CompanySliceTS {
   singleCompany: CompanyTS | null;
   loading: boolean;
   companies: CompanyTS[] | null;
+  serachCompanyByText: string;
+
   setSingleCompany?: (company: CompanyTS) => void;
   setLoading?: (loading: boolean) => void;
   setCompanies?: (companies: CompanyTS[]) => void;
+  setSerachCompanyByText?: (text: string) => void;
 }
 
 // Define the initial state using that type
@@ -17,6 +19,7 @@ const initialState: CompanySliceTS = {
   singleCompany: null,
   loading: false,
   companies: [],
+  serachCompanyByText: "",
 };
 
 export const companySlice = createSlice({
@@ -38,10 +41,20 @@ export const companySlice = createSlice({
     ) => {
       state.companies = action.payload;
     },
+    setSerachCompanyByText: (
+      state: CompanySliceTS,
+      action: PayloadAction<string>,
+    ) => {
+      state.serachCompanyByText = action.payload;
+    },
   },
 });
 
-export const { setSingleCompany, setLoading, setCompanies } =
-  companySlice.actions;
+export const {
+  setSingleCompany,
+  setLoading,
+  setCompanies,
+  setSerachCompanyByText,
+} = companySlice.actions;
 
 export default companySlice.reducer;

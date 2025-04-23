@@ -105,12 +105,17 @@ export default function CompaniesCreate({}: Props) {
             <div className="flex items-center gap-6">
               <Button
                 type="button"
-                variant={"outline"}
+                variant={"destructive"}
                 onClick={() => navigate("/admin/companies")}
               >
                 Cancel
               </Button>
-              <Button type="submit">Continue</Button>
+              <Button
+                className="bg-bermuda hover:bg-bermuda/90 w-[200px]"
+                type="submit"
+              >
+                Continue
+              </Button>
             </div>
           </form>
         </Form>

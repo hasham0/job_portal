@@ -46,7 +46,7 @@ const getAdminJobs = asyncHandler(async (request, response) => {
         .json({ message: "Admin Jobs found successfully", jobs });
 });
 
-const postJob = asyncHandler((request, response) => {
+const postJob = asyncHandler(async (request, response) => {
     // Validate request
     const errors = validationResult(request);
     if (!errors.isEmpty()) {
@@ -67,7 +67,7 @@ const postJob = asyncHandler((request, response) => {
     } = request.body;
     const { _id: userId } = request.user;
 
-    const job = createJobService({
+    const job = await createJobService({
         title,
         description,
         requirements: requirements.split(","),

@@ -11,15 +11,47 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Edit2, MoreHorizontal } from "lucide-react";
 import { CompanyTS } from "@/types";
-type Props = { companies: CompanyTS[] | null };
+import { useEffect, useState } from "react";
+import { useAppSelector } from "@/redux/hooks/hooks";
+import { useNavigate } from "react-router-dom";
 
-const CompaniesTable = ({ companies }: Props) => {
+type Props = {};
+
+const CompaniesTable = ({}: Props) => {
+  const navigate = useNavigate();
+
+  const { companies, serachCompanyByText } = useAppSelector(
+    (state) => state.company,
+  );
+
+  const [filterCompany, setFilterCompany] = useState<CompanyTS[] | null>(
+    companies,
+  );
+  useEffect(() => {
+    if (!serachCompanyByText) {
+      setFilterCompany(companies);
+    }
+    if (companies && companies.length > 0) {
+      const filteredCompanies = companies
+        .slice()
+        .filter((company) =>
+          company.name
+            .toLowerCase()
+            .includes(serachCompanyByText.toLowerCase()),
+        );
+      if (filteredCompanies.length <= 0) {
+        setFilterCompany(companies);
+      }
+      setFilterCompany(filteredCompanies);
+    }
+  }, [companies, serachCompanyByText]);
+
   return (
     <>
-      <Table className="">
+      <Table>
         <TableCaption>A list of your recent registered companies</TableCaption>
         <TableHeader>
-          <TableRow className="">
+          <TableRow className="[&>*]:text-center [&>*]:font-bold">
             <TableHead>Logo</TableHead>
             <TableHead>Name</TableHead>
             <TableHead>Date</TableHead>
@@ -32,9 +64,9 @@ const CompaniesTable = ({ companies }: Props) => {
               <TableCell colSpan={4}>No companies found</TableCell>
             </TableRow>
           ) : (
-            companies.map((company) => (
-              <TableRow key={company._id}>
-                <TableCell>
+            filterCompany?.map((company) => (
+              <TableRow key={company._id} className="[&>*]:text-center">
+                <TableCell className="flex items-center justify-center">
                   <Avatar>
                     <AvatarImage src={company.logo} />
                   </Avatar>
@@ -54,7 +86,12 @@ const CompaniesTable = ({ companies }: Props) => {
                       <MoreHorizontal className="ml-2" />
                     </PopoverTrigger>
                     <PopoverContent className="w-32">
-                      <div className="flex w-fit cursor-pointer items-center gap-2">
+                      <div
+                        onClick={() =>
+                          navigate(`/admin/company/${company._id}`)
+                        }
+                        className="flex w-fit cursor-pointer items-center gap-2"
+                      >
                         <Edit2 />
                         <span>Edit</span>
                       </div>

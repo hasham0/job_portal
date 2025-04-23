@@ -5,15 +5,15 @@ import { COMPANY_API_ENDPOINT } from "@/utils/constant";
 import { useEffect } from "react";
 
 type Props = {
-  id: string;
+  _id: string;
 };
-const useGetCompanyByID = ({ id }: Props) => {
+const useGetCompanyByID = ({ _id }: Props) => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     const fetchSingleCompany = async () => {
       try {
         const response = await axiosInstance.get(
-          `${COMPANY_API_ENDPOINT}/currentCompany/${id}`,
+          `${COMPANY_API_ENDPOINT}/currentCompany/${_id}`,
           {
             withCredentials: true,
           },
@@ -26,7 +26,7 @@ const useGetCompanyByID = ({ id }: Props) => {
       }
     };
     fetchSingleCompany();
-  }, [id, dispatch]);
+  }, [_id, dispatch]);
 };
 
 export default useGetCompanyByID;

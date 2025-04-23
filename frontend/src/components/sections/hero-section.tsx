@@ -21,7 +21,6 @@ const HeroSection = ({}: Props) => {
       keyword: "",
     },
   });
-
   const onSubmit: SubmitHandler<SearchSchemaTS> = (data) => {
     console.log("Search data:", data);
     // Handle search logic here

@@ -18,7 +18,7 @@ router.route("/").get(allJobs);
 router
     .route("/oneJob/:_id")
     .get([param("_id").isMongoId().withMessage("Invalid job id")], getJobById);
-router.route("/adminJob").get([authMiddleware, adminMiddleware], getAdminJobs);
+router.route("/adminJobs").get([authMiddleware, adminMiddleware], getAdminJobs);
 router
     .route("/postJob")
     .post(

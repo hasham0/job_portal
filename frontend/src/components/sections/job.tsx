@@ -3,13 +3,14 @@ import { Bookmark } from "lucide-react";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
-import { JobsTS } from "@/types";
+import { CompanyTS, JobsTS } from "@/types";
 import daysAgoFunction from "@/utils/day-ago";
 
 type Props = { job: JobsTS };
 
 const Job = ({ job }: Props) => {
   const navigate = useNavigate();
+  const company = job.company as unknown as CompanyTS;
   return (
     <div className="mx-4 rounded-md border-gray-100 bg-white p-5 shadow-xl">
       <div className="flex items-center justify-between">
@@ -25,7 +26,7 @@ const Job = ({ job }: Props) => {
       <div className="my-2 flex items-center gap-2">
         <Button className="p-6" variant={"ghost"} size={"icon"}>
           <Avatar>
-            <AvatarImage src="https://github.com/shadcn.png" />
+            <AvatarImage src={company.logo} />
           </Avatar>
         </Button>
         <div>

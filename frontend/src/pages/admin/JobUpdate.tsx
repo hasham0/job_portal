@@ -29,7 +29,7 @@ import useGetCompanyByID from "@/hooks/useGetCompanyById";
 
 type Props = {};
 
-export default function Company({}: Props) {
+export default function JobUpdate({}: Props) {
   const { _id } = useParams<{ _id: string | undefined }>();
   useGetCompanyByID({ _id: _id as string });
   const navigate = useNavigate();
