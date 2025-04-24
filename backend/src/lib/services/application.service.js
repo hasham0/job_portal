@@ -27,8 +27,22 @@ const getApplicationByIdService = async (id) =>
             },
         });
 
-const updateApplicationStatusService = async ({ id, status }) =>
-    await Application.findOneAndUpdate({ id }, { status }, { new: true });
+const updateApplicationStatusService = async ({ id, status }) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new Error("Invalid application ID");
+    }
+    const updatedApplication = await Application.findByIdAndUpdate(
+        { _id: id },
+        { status },
+        { new: true }
+    );
+
+    if (!updatedApplication) {
+        throw new Error("Application not found");
+    }
+
+    return updatedApplication;
+};
 
 export {
     checkExistingApplicationService,

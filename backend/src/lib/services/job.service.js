@@ -29,17 +29,13 @@ const getAdminJobsService = async (adminId) =>
         .sort({ createdAt: -1 });
 
 const getApplicantsJobService = async (jobId) =>
-    await Job.findById({ _id: jobId })
-        .populate({
-            path: "applications",
-            options: {
-                sort: { createdAt: -1 },
-            },
-            populate: {
-                path: "applicant",
-            },
-        })
-        .sort({ createdAt: -1 });
+    await Job.findById(jobId).populate({
+        path: "applications",
+        options: { sort: { createdAt: -1 } },
+        populate: {
+            path: "applicant",
+        },
+    });
 
 export {
     createJobService,

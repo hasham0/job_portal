@@ -15,6 +15,7 @@ import ProtectedProfileRoute from "@/protected/protected-profile-wrapper";
 import { createBrowserRouter } from "react-router-dom";
 import JobUpdate from "@/pages/admin/JobUpdate";
 import JobsCreate from "@/pages/admin/JobsCreate";
+import Applicants from "@/pages/admin/Applicants";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
           { path: "/admin/jobs", element: <JobsPanel /> },
           { path: "/admin/jobs/create", element: <JobsCreate /> },
           { path: "/admin/jobDetails/:_id", element: <JobUpdate /> },
+          {
+            path: "/admin/jobDetails/:_id/applicants",
+            element: <Applicants />,
+          },
         ],
       },
     ],

@@ -82,7 +82,7 @@ const applicantsJob = asyncHandler(async (request, response) => {
 
     response.status(200).json({
         message: "Applicants fetched successfully",
-        data: jobs,
+        jobs,
     });
 });
 
@@ -98,7 +98,7 @@ const updateStatus = asyncHandler(async (request, response) => {
     const { _id: applicationId } = request.params;
 
     const application = await updateApplicationStatusService({
-        applicationId,
+        id: applicationId,
         status,
     });
     response.status(200).json({

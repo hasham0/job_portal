@@ -101,9 +101,9 @@ export default function JobUpdate({}: Props) {
         </Button>
         <div className="flex w-full flex-col items-center justify-center text-center">
           <h1 className="py-2 text-center text-2xl font-bold">
-            Your Company Details
+            Your Job Details
           </h1>
-          <p>Add your company details here</p>
+          <p>Add your job details here</p>
         </div>
       </div>
       <div className="flex flex-col items-center">

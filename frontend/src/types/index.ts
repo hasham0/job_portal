@@ -6,6 +6,8 @@ type FilterTS = {
 };
 
 interface UserTS {
+  status: string;
+  applicant: ApplicationTS;
   _id: string;
   fullname: string;
   email: string;
@@ -18,11 +20,13 @@ interface UserTS {
     profilePhoto?: string;
     resumeOriginalName: string;
   };
+  createdAt: Date | string;
+  updatedAt: Date | string;
 }
 interface ApplicationTS {
   _id: string;
   job: string;
-  applicant: string;
+  applicant: string | UserTS;
   status: "pending" | "accepted" | "rejected";
   createdAt: Date | string;
   updatedAt: Date | string;
