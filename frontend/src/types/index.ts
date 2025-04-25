@@ -36,13 +36,13 @@ interface JobsTS {
   _id: string;
   title: string;
   description: string;
-  requirments: Array<string>;
+  requirements: Array<string>;
   salary: number;
   experienceLevel: number;
   location: string;
   jobType: string;
   position: number;
-  company: string | CategoryTS;
+  company: string | CompanyTS;
   createdAt: Date | string;
   updatedAt: Date | string;
   applications: (string | { applicant: string })[];

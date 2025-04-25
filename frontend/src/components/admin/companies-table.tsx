@@ -9,16 +9,22 @@ import {
 } from "@/components/ui/table";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Edit2, MoreHorizontal } from "lucide-react";
+import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
 import { CompanyTS } from "@/types";
 import { useEffect, useState } from "react";
-import { useAppSelector } from "@/redux/hooks/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { useNavigate } from "react-router-dom";
+import { COMPANY_API_ENDPOINT } from "@/utils/constant";
+import axiosInstance from "@/lib/axios";
+import { toast } from "sonner";
+import { AxiosError } from "axios";
+import { setRemoveCompany } from "@/redux/slice/companySlice";
 
 type Props = {};
 
 const CompaniesTable = ({}: Props) => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { companies, serachCompanyByText } = useAppSelector(
     (state) => state.company,
@@ -45,6 +51,33 @@ const CompaniesTable = ({}: Props) => {
       setFilterCompany(filteredCompanies);
     }
   }, [companies, serachCompanyByText]);
+
+  const handleDeleteCompany = async (_id: string) => {
+    try {
+      const response = await axiosInstance.delete(
+        `${COMPANY_API_ENDPOINT}/deleteCompany/${_id}`,
+        {
+          withCredentials: true,
+        },
+      );
+      if (response.data) {
+        dispatch(setRemoveCompany(_id));
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+      console.error("🚀 ~ handleStatusChange ~ error:", error);
+
+      if (error instanceof AxiosError) {
+        toast.error(
+          error.response?.data?.message ||
+            error.message ||
+            "company delete failed",
+        );
+      } else {
+        toast.error("An unexpected error occurred");
+      }
+    }
+  };
 
   return (
     <>
@@ -85,15 +118,20 @@ const CompaniesTable = ({}: Props) => {
                     <PopoverTrigger>
                       <MoreHorizontal className="ml-2" />
                     </PopoverTrigger>
-                    <PopoverContent className="w-32">
+                    <PopoverContent className="flex w-fit items-center justify-center gap-3 rounded-lg border-2 border-gray-300 bg-white p-2 shadow-md">
                       <div
                         onClick={() =>
                           navigate(`/admin/company/${company._id}`)
                         }
-                        className="flex w-fit cursor-pointer items-center gap-2"
+                        className="flex w-full cursor-pointer items-center justify-evenly gap-2 rounded-lg bg-gray-400 p-2 hover:bg-gray-300 hover:text-white"
                       >
-                        <Edit2 />
-                        <span>Edit</span>
+                        <Edit2 size={15} />
+                      </div>
+                      <div
+                        onClick={() => handleDeleteCompany(company._id)}
+                        className="flex w-full cursor-pointer items-center justify-evenly gap-2 rounded-lg bg-red-400 p-2 hover:bg-red-300 hover:text-white"
+                      >
+                        <Trash2 size={15} />
                       </div>
                     </PopoverContent>
                   </Popover>

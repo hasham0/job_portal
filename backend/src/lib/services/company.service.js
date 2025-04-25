@@ -20,11 +20,15 @@ const updateCompanyDetailsByIdService = async (companyId, data) =>
 
 const companiesService = async () => await Company.find();
 
+const companyFindByIdAndDeleteService = async (companyId) =>
+    await Company.findByIdAndDelete({ _id: companyId });
+
 export {
+    companyFindByIdService,
     companyFindService,
     companyCreateService,
     companiesFindByUserIdService,
-    companyFindByIdService,
+    companyFindByIdAndDeleteService,
     updateCompanyDetailsByIdService,
     companiesService,
 };

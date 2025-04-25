@@ -131,7 +131,7 @@ const ApplicantsTable = ({}: Props) => {
                               key={index}
                               value={status}
                             >
-                              <p>{status}</p>
+                              {status}
                             </SelectItem>
                           ))}
                         </SelectContent>

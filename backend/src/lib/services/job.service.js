@@ -15,9 +15,12 @@ const allJobsService = async (keyword = "") => {
 };
 
 const getJobByIdService = async (jobId) =>
-    await Job.findById({ _id: jobId })
+    await Job.findById(jobId)
         .populate({
             path: "applications",
+        })
+        .populate({
+            path: "company",
         })
         .sort({ createdAt: -1 });
 
@@ -37,10 +40,26 @@ const getApplicantsJobService = async (jobId) =>
         },
     });
 
+const jobsFindByCompanyIdAndDeleteService = async (companyId) =>
+    await Job.deleteMany({ company: companyId });
+
+const deleteJobByIdService = async (jobId) =>
+    await Job.findByIdAndDelete(jobId);
+
+const updateJobByIdService = async (jobId, data) => {
+    return await Job.findByIdAndUpdate(jobId, data, {
+        new: true,
+        runValidators: true,
+    });
+};
+
 export {
     createJobService,
     allJobsService,
     getJobByIdService,
     getAdminJobsService,
     getApplicantsJobService,
+    jobsFindByCompanyIdAndDeleteService,
+    deleteJobByIdService,
+    updateJobByIdService,
 };

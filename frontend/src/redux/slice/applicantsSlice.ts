@@ -1,6 +1,5 @@
 import { ApplicationTS } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { set } from "react-hook-form";
 
 // Define a type for the slice state
 interface ApplicantsStateTS {

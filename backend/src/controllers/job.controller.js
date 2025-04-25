@@ -5,6 +5,8 @@ import {
     createJobService,
     getAdminJobsService,
     getJobByIdService,
+    deleteJobByIdService,
+    updateJobByIdService,
 } from "../lib/services/job.service.js";
 import {
     CustomError,
@@ -62,21 +64,22 @@ const postJob = asyncHandler(async (request, response) => {
         jobType,
         experience,
         position,
-        companyId,
+        company,
         applicationId,
     } = request.body;
+
     const { _id: userId } = request.user;
 
     const job = await createJobService({
         title,
         description,
-        requirements: requirements.split(","),
+        requirements: requirements.split(/[,\s]+/),
         salary,
         location,
         jobType,
         experienceLevel: Number(experience),
         position,
-        company: companyId,
+        company,
         created_by: userId,
         application: applicationId,
     });
@@ -86,4 +89,61 @@ const postJob = asyncHandler(async (request, response) => {
         .json({ message: "Job created successfully", job });
 });
 
-export { allJobs, getAdminJobs, getJobById, postJob };
+const updatejob = asyncHandler(async (request, response) => {
+    // Validate request
+    const errors = validationResult(request);
+    if (!errors.isEmpty()) {
+        throw new ValidationError(errors.array());
+    }
+    const { _id: jobId } = request.params;
+    const { _id: userId } = request.user;
+    const {
+        title,
+        description,
+        requirements,
+        salary,
+        location,
+        jobType,
+        experience,
+        position,
+        company,
+        applicationId,
+    } = request.body;
+
+    const job = await getJobByIdService(jobId);
+    if (!job) {
+        throw new CustomError("Job not found", 404);
+    }
+
+    const updatedJob = await updateJobByIdService(jobId, {
+        title,
+        description,
+        requirements: requirements.split(/[,\s]+/),
+        salary,
+        location,
+        jobType,
+        experience,
+        position,
+        company,
+        applicationId,
+    });
+
+    return response
+        .status(200)
+        .json({ message: "Job updated successfully", updatedJob });
+});
+
+const deleteJobById = asyncHandler(async (request, response) => {
+    const { _id: jobId } = request.params;
+    const { _id: userId } = request.user;
+
+    const job = await deleteJobByIdService(jobId, userId);
+    if (!job) {
+        throw new CustomError("Job not found", 404);
+    }
+    return response
+        .status(200)
+        .json({ message: "Job deleted successfully", job });
+});
+
+export { allJobs, getAdminJobs, getJobById, postJob, deleteJobById, updatejob };

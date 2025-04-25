@@ -14,6 +14,8 @@ interface JobStateTS {
   setJobDetails?: () => void;
   setSearchJobByText?: (text: string) => void;
   setAllAdminJobs?: () => void;
+  setRemoveJob?: (_id: string) => void;
+  setUpdateJob?: () => void;
 }
 
 // Define the initial state using that type
@@ -26,7 +28,7 @@ const initialState: JobStateTS = {
     _id: "",
     title: "",
     description: "",
-    requirments: [],
+    requirements: [],
     salary: 0,
     experienceLevel: 0,
     location: "",
@@ -60,6 +62,19 @@ export const jobSlice = createSlice({
     setAllAdminJobs: (state, action: PayloadAction<Array<JobsTS>>) => {
       state.allAdminJobs = action.payload;
     },
+    setRemoveJob: (state, action: PayloadAction<string>) => {
+      state.allAdminJobs = state.allAdminJobs.filter(
+        (job) => job._id !== action.payload,
+      );
+    },
+    setUpdateJob: (state, action: PayloadAction<JobsTS>) => {
+      const index = state.allAdminJobs.findIndex(
+        (job) => job._id === action.payload._id,
+      );
+      if (index !== -1) {
+        state.allAdminJobs[index] = action.payload;
+      }
+    },
   },
 });
 
@@ -69,6 +84,8 @@ export const {
   setJobDetails,
   setSearchJobByText,
   setAllAdminJobs,
+  setRemoveJob,
+  setUpdateJob,
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

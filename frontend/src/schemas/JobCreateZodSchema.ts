@@ -25,7 +25,7 @@ const jobCreateSchema = z.object({
   position: z.number().min(0, {
     message: "positions must be a positive number",
   }),
-  companyId: z.string().nonempty({
+  company: z.string().nonempty({
     message: "companyId is required",
   }),
 });

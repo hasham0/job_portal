@@ -50,7 +50,7 @@ export default function JobsCreate({}: Props) {
       jobType: "full-time",
       experience: 0,
       position: 0,
-      companyId: "",
+      company: "",
     },
   });
   const onSubmit: SubmitHandler<JobCreateSchemaTS> = async (values) => {
@@ -243,7 +243,7 @@ export default function JobsCreate({}: Props) {
             {/* Company ID */}
             <FormField
               control={form.control}
-              name="companyId"
+              name="company"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-lg font-medium">Company</FormLabel>

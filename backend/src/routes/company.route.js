@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { authMiddleware } from "../middlewares/auth.middleware.js";
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 import {
     getCompaniesByUserId,
     getCompany,
     getCompanies,
     registerCompany,
     updateCompanyDetails,
+    deleteCompany,
 } from "../controllers/company.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
@@ -25,7 +26,15 @@ router
         registerCompany
     );
 router.route("/enrollUserCompany").get([authMiddleware], getCompaniesByUserId);
-router.route("/currentCompany/:_id").get([authMiddleware], getCompany);
+router
+    .route("/currentCompany/:_id")
+    .get(
+        [
+            authMiddleware,
+            param("_id").isMongoId().withMessage("Invalid job id"),
+        ],
+        getCompany
+    );
 router
     .route("/updateCompanyDetails/:_id")
     .put(
@@ -48,8 +57,18 @@ router
                 .optional()
                 .isLength({ min: 3 })
                 .withMessage("location must be atlest 3 character long"),
+            param("_id").isMongoId().withMessage("Invalid job id"),
         ],
         updateCompanyDetails
+    );
+router
+    .route("/deleteCompany/:_id")
+    .delete(
+        [
+            authMiddleware,
+            param("_id").isMongoId().withMessage("Invalid job id"),
+        ],
+        deleteCompany
     );
 
 export default router;

@@ -20,10 +20,14 @@ import { COMPANY_API_ENDPOINT } from "@/utils/constant";
 import { toast } from "sonner";
 import { AxiosError } from "axios";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
-import { setLoading, setSingleCompany } from "@/redux/slice/companySlice";
+import {
+  setLoading,
+  setSingleCompany,
+  setUpdateCompany,
+} from "@/redux/slice/companySlice";
 
 import { useParams } from "react-router-dom";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useEffect } from "react";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import useGetCompanyByID from "@/hooks/useGetCompanyById";
 
@@ -45,6 +49,27 @@ export default function Company({}: Props) {
       website: singleCompany?.website || "",
     },
   });
+
+  useEffect(() => {
+    if (singleCompany) {
+      form.reset({
+        name: singleCompany?.name,
+        description: singleCompany?.description || "",
+        location: singleCompany?.location || "",
+        logo: undefined,
+        website: singleCompany?.website || "",
+      });
+    }
+    return () => {
+      form.reset({
+        name: "",
+        description: "",
+        location: "",
+        logo: undefined,
+        website: "",
+      });
+    };
+  }, [singleCompany]);
   const onSubmit: SubmitHandler<CompanyCreateSchemaTS> = async (values) => {
     try {
       const formData = new FormData();
@@ -70,6 +95,7 @@ export default function Company({}: Props) {
 
       if (response.data) {
         dispatch(setSingleCompany(response.data.company));
+        dispatch(setUpdateCompany(response.data.company));
         toast.success(response.data.message);
         navigate(-1);
       }
@@ -82,7 +108,7 @@ export default function Company({}: Props) {
         toast.error(
           error.response?.data?.message ||
             error.message ||
-            "Company create failed",
+            "Company update failed",
         );
       } else {
         toast.error("An unexpected error occurred");
@@ -95,7 +121,13 @@ export default function Company({}: Props) {
   return (
     <div className="mx-auto my-8 flex max-w-4xl flex-col">
       <div className="flex items-center px-6">
-        <Button className="w-fit" onClick={() => navigate(-1)}>
+        <Button
+          className="w-fit"
+          onClick={() => {
+            navigate(-1);
+            form.reset();
+          }}
+        >
           <ArrowLeft />
           back
         </Button>

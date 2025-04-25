@@ -11,9 +11,11 @@ import {
     companyFindByIdService,
     companiesService,
     updateCompanyDetailsByIdService,
+    companyFindByIdAndDeleteService,
 } from "../lib/services/company.service.js";
 import getDataUri from "../lib/utils/data-uri.util.js";
 import cloudinary from "../lib/utils/cloudinary.util.js";
+import { jobsFindByCompanyIdAndDeleteService } from "../lib/services/job.service.js";
 
 const registerCompany = asyncHandler(async (request, response) => {
     // Validate request
@@ -112,10 +114,25 @@ const updateCompanyDetails = asyncHandler(async (request, response) => {
         .json({ message: "Company updated successfully", company });
 });
 
+const deleteCompany = asyncHandler(async (request, response) => {
+    // extract company id from request
+    const { _id: companyId } = request.params;
+
+    await jobsFindByCompanyIdAndDeleteService(companyId);
+
+    // find company by user id and validate
+    await companyFindByIdAndDeleteService(companyId);
+
+    return response
+        .status(200)
+        .json({ message: "Company deleted successfully" });
+});
+
 export {
     registerCompany,
     getCompaniesByUserId,
     getCompanies,
     getCompany,
     updateCompanyDetails,
+    deleteCompany,
 };

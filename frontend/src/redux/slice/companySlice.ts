@@ -1,3 +1,4 @@
+import { set } from "react-hook-form";
 import { CompanyTS } from "@/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
@@ -12,6 +13,8 @@ interface CompanySliceTS {
   setLoading?: (loading: boolean) => void;
   setCompanies?: (companies: CompanyTS[]) => void;
   setSerachCompanyByText?: (text: string) => void;
+  setRemoveCompany?: (_id: string) => void;
+  setUpdateCompany?: () => void;
 }
 
 // Define the initial state using that type
@@ -47,6 +50,29 @@ export const companySlice = createSlice({
     ) => {
       state.serachCompanyByText = action.payload;
     },
+    setRemoveCompany: (
+      state: CompanySliceTS,
+      action: PayloadAction<string>,
+    ) => {
+      if (state.companies) {
+        state.companies = state.companies.filter(
+          (company) => company._id !== action.payload,
+        );
+      }
+    },
+    setUpdateCompany: (
+      state: CompanySliceTS,
+      action: PayloadAction<CompanyTS>,
+    ) => {
+      if (state.companies) {
+        const index = state.companies.findIndex(
+          (company) => company._id === action.payload._id,
+        );
+        if (index !== -1) {
+          state.companies[index] = action.payload;
+        }
+      }
+    },
   },
 });
 
@@ -55,6 +81,8 @@ export const {
   setLoading,
   setCompanies,
   setSerachCompanyByText,
+  setRemoveCompany,
+  setUpdateCompany,
 } = companySlice.actions;
 
 export default companySlice.reducer;
