@@ -4,6 +4,7 @@ import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import useGetAllAppliedJobs from "@/hooks/useGetAllAppliedJob";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { Contact, Mail, Pen } from "lucide-react";
 import { useState } from "react";
@@ -11,6 +12,7 @@ import { useState } from "react";
 type Props = {};
 
 export default function Profile({}: Props) {
+  useGetAllAppliedJobs();
   const [open, setOpen] = useState<boolean>(false);
   const { user } = useAppSelector((state) => state.auth);
 
@@ -46,11 +48,13 @@ export default function Profile({}: Props) {
           </div>
         </div>
         <div className="my-5">
-          <h1>Skills</h1>
+          <h1 className="font-bold">Skills</h1>
           <div className="flex items-center gap-1">
             {user?.profile?.skills && user.profile.skills.length > 0 ? (
               user.profile.skills.map((item: string, index) => (
-                <Badge key={index}>{item}</Badge>
+                <Badge variant={"outline"} key={index}>
+                  {item}
+                </Badge>
               ))
             ) : (
               <span>No Skills</span>

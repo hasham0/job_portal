@@ -66,7 +66,7 @@ const appliedJobs = asyncHandler(async (request, response) => {
 
     response.status(200).json({
         message: "Applied jobs fetched successfully",
-        data: applications,
+        jobs: applications,
     });
 });
 

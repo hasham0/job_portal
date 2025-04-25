@@ -11,20 +11,24 @@ const createApplicationService = async (data) => await Application.create(data);
 
 const getApplicationByIdService = async (id) =>
     await Application.find({ applicant: id })
-        .sort({
-            createdAt: -1,
-        })
+        .sort({ createdAt: -1 })
         .populate({
             path: "job",
-            options: {
-                sort: { createdAt: -1 },
-            },
-            populate: {
-                path: "company",
-                options: {
-                    sort: { createdAt: -1 },
+            model: "Job",
+            populate: [
+                {
+                    path: "company",
+                    model: "Company",
                 },
-            },
+                {
+                    path: "applications",
+                    model: "Application",
+                },
+                {
+                    path: "created_by",
+                    model: "User",
+                },
+            ],
         });
 
 const updateApplicationStatusService = async ({ id, status }) => {

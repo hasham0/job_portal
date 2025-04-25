@@ -4,14 +4,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 // Define a type for the slice state
 interface ApplicantsStateTS {
   allApplicants: ApplicationTS[];
-
+  allAppliedJobs: ApplicationTS[];
   setAllApplicants?: (applicants: ApplicationTS[]) => void;
   setUpdateApplicant?: (applicant: ApplicationTS) => void;
+  setAllAppliedJobs?: (applicants: ApplicationTS[]) => void;
 }
 
 // Define the initial state using that type
 const initialState: ApplicantsStateTS = {
   allApplicants: [],
+  allAppliedJobs: [],
 };
 
 export const applicantSlice = createSlice({
@@ -24,6 +26,14 @@ export const applicantSlice = createSlice({
     ) => {
       state.allApplicants = action.payload;
     },
+
+    setAllAppliedJobs: (
+      state: ApplicantsStateTS,
+      action: PayloadAction<ApplicationTS[]>,
+    ) => {
+      state.allAppliedJobs = action.payload;
+    },
+
     setUpdateApplicant: (
       state: ApplicantsStateTS,
       action: PayloadAction<ApplicationTS>,
@@ -36,6 +46,7 @@ export const applicantSlice = createSlice({
   },
 });
 
-export const { setAllApplicants, setUpdateApplicant } = applicantSlice.actions;
+export const { setAllApplicants, setUpdateApplicant, setAllAppliedJobs } =
+  applicantSlice.actions;
 
 export default applicantSlice.reducer;

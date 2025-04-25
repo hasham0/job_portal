@@ -45,7 +45,7 @@ const UpdateProfileDialog = ({ open, setOpen }: Props) => {
       role: user?.role,
       profile: {
         bio: user?.profile?.bio,
-        skills: user?.profile?.skills?.map((skill) => skill).join(","),
+        skills: user?.profile?.skills?.map((skill) => skill).join(" "),
         resume: undefined,
         resumeOriginalName: user?.profile.resumeOriginalName,
       },
