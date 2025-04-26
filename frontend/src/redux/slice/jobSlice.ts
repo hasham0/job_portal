@@ -8,6 +8,7 @@ interface JobStateTS {
   allAdminJobs: Array<JobsTS>;
   singleJobDetails: JobsTS;
   serachJobByText: string;
+  filterJobs: Array<JobsTS>;
 
   setLoading?: (loading: boolean) => void;
   setAllJobs?: () => void;
@@ -16,12 +17,14 @@ interface JobStateTS {
   setAllAdminJobs?: () => void;
   setRemoveJob?: (_id: string) => void;
   setUpdateJob?: () => void;
+  setFilterjobByText?: () => void;
 }
 
 // Define the initial state using that type
 const initialState: JobStateTS = {
   loading: false,
   allJobs: [],
+  filterJobs: [],
   allAdminJobs: [],
   serachJobByText: "",
   singleJobDetails: {
@@ -75,6 +78,30 @@ export const jobSlice = createSlice({
         state.allAdminJobs[index] = action.payload;
       }
     },
+    setFilterjobByText: (state) => {
+      if (state.serachJobByText === "All") {
+        state.filterJobs = state.allJobs;
+        return;
+      }
+      if (state.serachJobByText) {
+        const filteredJobs = state.allJobs
+          .slice()
+          .filter(
+            (job) =>
+              job.location
+                .toLowerCase()
+                .includes(state.serachJobByText.toLowerCase()) ||
+              job.title
+                .toLowerCase()
+                .includes(state.serachJobByText.toLowerCase()) ||
+              parseFloat(state.serachJobByText.split("-")[1]) <= job.salary,
+          );
+        if (!filteredJobs.length) {
+          state.filterJobs = state.allJobs;
+        }
+        state.filterJobs = filteredJobs;
+      }
+    },
   },
 });
 
@@ -86,6 +113,7 @@ export const {
   setAllAdminJobs,
   setRemoveJob,
   setUpdateJob,
+  setFilterjobByText,
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

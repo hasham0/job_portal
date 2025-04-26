@@ -8,6 +8,7 @@ import useGetAllAppliedJobs from "@/hooks/useGetAllAppliedJob";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { Contact, Mail, Pen } from "lucide-react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 type Props = {};
 
@@ -64,13 +65,13 @@ export default function Profile({}: Props) {
         <div className="grid w-full max-w-sm items-center gap-1.5">
           <Label className="text-base font-bold">Resume</Label>
           {user?.profile.resume && user?.profile.resumeOriginalName ? (
-            <a
-              href={user?.profile.resume}
+            <Link
+              to={user?.profile.resume}
               target="_blank"
               className="cursor-pointer text-blue-500 hover:underline"
             >
               {user?.profile.resumeOriginalName}
-            </a>
+            </Link>
           ) : (
             <span>No Resume</span>
           )}

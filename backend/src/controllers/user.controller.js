@@ -130,7 +130,6 @@ const updateUserProfile = asyncHandler(async (request, response) => {
         {
             resource_type: "raw",
             folder: "job-portal",
-            type: "public",
         }
     );
 

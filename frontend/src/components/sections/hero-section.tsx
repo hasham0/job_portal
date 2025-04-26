@@ -11,10 +11,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { searchSchema, SearchSchemaTS } from "@/schemas/SearchZodSchema";
 import { Search } from "lucide-react";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { setSearchJobByText } from "@/redux/slice/jobSlice";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 const HeroSection = ({}: Props) => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const form = useForm<SearchSchemaTS>({
     resolver: zodResolver(searchSchema),
     defaultValues: {
@@ -22,9 +27,10 @@ const HeroSection = ({}: Props) => {
     },
   });
   const onSubmit: SubmitHandler<SearchSchemaTS> = (data) => {
-    console.log("Search data:", data);
-    // Handle search logic here
+    dispatch(setSearchJobByText(data.keyword));
+    navigate("/browse");
   };
+
   return (
     <div className="text-center">
       <div className="my-8 flex flex-col gap-5">

@@ -1,15 +1,17 @@
 import { Badge } from "@/components/ui/badge";
-import { JobsTS } from "@/types";
+import { CompanyTS, JobsTS } from "@/types";
 
 type Props = {
   job: JobsTS;
 };
 
 const LatestJobCards = ({ job }: Props) => {
+  const company = job?.company as unknown as CompanyTS;
+
   return (
     <div className="cursor-pointer rounded-md border border-gray-200 bg-white p-5 shadow-xl">
       <div>
-        <h1 className="text-lg font-medium">Company Name</h1>
+        <h1 className="text-lg font-medium">{company.name}</h1>
         <p className="text-sm text-gray-500">Pakistan</p>
       </div>
       <div>

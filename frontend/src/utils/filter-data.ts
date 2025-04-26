@@ -3,7 +3,7 @@ import { FilterTS } from "@/types";
 const fitlerData: Array<FilterTS> = [
   {
     fitlerType: "Location",
-    array: ["Karachi", "Multan", "Hyderabad", "Sukkar", "KPK"],
+    array: ["All", "Karachi", "Multan", "Hyderabad", "Sukkar", "KPK"],
   },
   {
     fitlerType: "Industry",
@@ -17,7 +17,7 @@ const fitlerData: Array<FilterTS> = [
   },
   {
     fitlerType: "Salary",
-    array: ["0-40k", "42-1lakh", "1lakh to 5lakh"],
+    array: ["0-40", "41-100000", "100000-500000"],
   },
 ];
 

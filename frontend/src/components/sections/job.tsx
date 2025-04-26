@@ -30,8 +30,8 @@ const Job = ({ job }: Props) => {
           </Avatar>
         </Button>
         <div>
-          <h1 className="text-lg font-medium">Company Name</h1>
-          <p className="text-sm text-gray-500">Pakistan</p>
+          <h1 className="text-lg font-medium">{company.name}</h1>
+          <p className="text-sm text-gray-500">{job.location}</p>
         </div>
       </div>
       <div>

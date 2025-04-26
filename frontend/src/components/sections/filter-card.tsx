@@ -1,30 +1,86 @@
+import { useEffect } from "react";
 import fitlerData from "@/utils/filter-data";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormControl,
+  FormMessage,
+  FormLabel,
+} from "@/components/ui/form";
+import { searchSchema, SearchSchemaTS } from "@/schemas/SearchZodSchema";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAppDispatch } from "@/redux/hooks/hooks";
+import { setSearchJobByText } from "@/redux/slice/jobSlice";
 
-type Props = {};
+const FilterCard = () => {
+  const dispatch = useAppDispatch();
+  const form = useForm<SearchSchemaTS>({
+    resolver: zodResolver(searchSchema),
+    defaultValues: {
+      keyword: "All", // ✅ set default
+    },
+  });
 
-const FilterCard = ({}: Props) => {
+  useEffect(() => {
+    dispatch(setSearchJobByText("All"));
+  }, [dispatch]);
+
   return (
     <div>
       <h1>Filter Jobs</h1>
       <hr className="mt-3" />
-      <RadioGroup>
-        {fitlerData.map((data, index) => (
-          <div key={index}>
-            <h1 className="text-lg font-bold">{data.fitlerType}</h1>
-            {data.array.map((item, idx) => {
-              const itemId = `id${index}-${idx}`;
-              return (
-                <div key={idx} className="my-2 flex items-center space-x-2">
-                  <RadioGroupItem value={item} id={itemId} />
-                  <Label htmlFor={itemId}>{item}</Label>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-      </RadioGroup>
+      <Form {...form}>
+        <form>
+          <FormField
+            control={form.control}
+            name="keyword"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <RadioGroup
+                    value={field.value}
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      dispatch(setSearchJobByText(value));
+                    }}
+                  >
+                    {fitlerData.map((data, index) => (
+                      <div key={index}>
+                        <h2 className="text-lg font-bold">{data.fitlerType}</h2>
+                        <div className="space-y-2">
+                          {data.array.map((item, idx) => {
+                            const itemId = `id${index}-${idx}`;
+                            return (
+                              <FormItem
+                                key={itemId}
+                                className="flex items-center space-y-0 space-x-3"
+                              >
+                                <FormControl>
+                                  <RadioGroupItem value={item} id={itemId} />
+                                </FormControl>
+                                <FormLabel
+                                  htmlFor={itemId}
+                                  className="font-normal"
+                                >
+                                  {item}
+                                </FormLabel>
+                              </FormItem>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    ))}
+                  </RadioGroup>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </form>
+      </Form>
     </div>
   );
 };
