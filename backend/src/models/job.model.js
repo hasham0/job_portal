@@ -20,7 +20,7 @@ const jobSchema = new Schema(
             {
                 type: String,
                 required: [true, "Requirement is required"],
-                minLength: [3, "Requirement must be at least 3 characters"],
+                minLength: [2, "Requirement must be at least 2 characters"],
                 maxLength: [50, "Requirement must be at most 50 characters"],
             },
         ],

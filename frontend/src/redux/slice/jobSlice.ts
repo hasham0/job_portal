@@ -97,6 +97,9 @@ export const jobSlice = createSlice({
               job.location
                 .toLowerCase()
                 .includes(state.serachJobByText.toLowerCase()) ||
+              job.description
+                .toLowerCase()
+                .includes(state.serachJobByText.toLowerCase()) ||
               job.title
                 .toLowerCase()
                 .includes(state.serachJobByText.toLowerCase()) ||

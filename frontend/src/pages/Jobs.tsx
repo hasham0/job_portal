@@ -3,6 +3,7 @@ import Job from "@/components/sections/job";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks/hooks";
 import { setFilterjobByText } from "@/redux/slice/jobSlice";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 type Props = {};
 
@@ -26,7 +27,15 @@ export default function Jobs({}: Props) {
           <div className="h-[90vh] flex-1 overflow-y-scroll pb-5">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
               {filterJobs.map((job) => (
-                <Job key={job._id} job={job} />
+                <motion.div
+                  key={job._id}
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Job job={job} />
+                </motion.div>
               ))}
             </div>
           </div>

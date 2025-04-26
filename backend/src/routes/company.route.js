@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
+import {
+    adminMiddleware,
+    authMiddleware,
+} from "../middlewares/auth.middleware.js";
 import { body, param } from "express-validator";
 import {
     getCompaniesByUserId,
@@ -13,12 +16,13 @@ import { upload } from "../middlewares/multer.middleware.js";
 
 const router = Router();
 
-router.route("/").get([authMiddleware], getCompanies);
+router.route("/").get([authMiddleware, adminMiddleware], getCompanies);
 router
     .route("/registerCompany")
     .post(
         [
             authMiddleware,
+            adminMiddleware,
             body("name")
                 .isLength({ min: 3 })
                 .withMessage("fullname must be atlest 3 character long"),
@@ -40,6 +44,7 @@ router
     .put(
         [
             authMiddleware,
+            adminMiddleware,
             upload.single("file"),
             body("name")
                 .optional()
@@ -66,6 +71,7 @@ router
     .delete(
         [
             authMiddleware,
+            adminMiddleware,
             param("_id").isMongoId().withMessage("Invalid job id"),
         ],
         deleteCompany

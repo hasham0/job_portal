@@ -25,10 +25,16 @@ const authMiddleware = asyncHandler(async (request, response, next) => {
     }
 });
 const adminMiddleware = asyncHandler(async (request, response, next) => {
-    try {
+    const user = request.user; // Corrected typo: request.user, not request.usr
+
+    if (!user) {
+        throw new CustomError("Unauthorized Access", 401);
+    }
+
+    if (user.role === "admin" || user.role === "recruiter") {
         next();
-    } catch (error) {
-        next(error);
+    } else {
+        throw new CustomError("Forbidden: Admins or Recruiters only", 403);
     }
 });
 

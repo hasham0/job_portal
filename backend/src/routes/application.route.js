@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
+import {
+    adminMiddleware,
+    authMiddleware,
+} from "../middlewares/auth.middleware.js";
 import { body, param } from "express-validator";
 import {
     applicantsJob,
@@ -27,6 +30,7 @@ router
     .get(
         [
             authMiddleware,
+            adminMiddleware,
             param("_id").isMongoId().withMessage("Invalid job id"),
         ],
         applicantsJob
@@ -37,6 +41,7 @@ router
     .put(
         [
             authMiddleware,
+            adminMiddleware,
             body("status")
                 .isIn(["pending", "accepted", "rejected"])
                 .withMessage("Invalid status"),

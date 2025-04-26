@@ -148,7 +148,7 @@ export default function JobUpdate() {
               </FormItem>
             )}
           />
-          {/** Job Type */}{" "}
+          {/** Job Type */}
           <FormField
             control={form.control}
             name="jobType"

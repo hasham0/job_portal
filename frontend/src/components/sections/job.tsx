@@ -12,7 +12,7 @@ const Job = ({ job }: Props) => {
   const navigate = useNavigate();
   const company = job.company as unknown as CompanyTS;
   return (
-    <div className="mx-4 rounded-md border-gray-100 bg-white p-5 shadow-xl">
+    <div className="mx-4 rounded-md border-2 border-gray-400 bg-white p-5 shadow-xl">
       <div className="flex items-center justify-between">
         <p>
           {daysAgoFunction(new Date(job.createdAt)) === 0
@@ -37,7 +37,7 @@ const Job = ({ job }: Props) => {
       <div>
         <h1 className="my-2 text-lg font-bold">{job.title}</h1>
         <p className="text-sm text-gray-600">{job.description}</p>
-      </div>{" "}
+      </div>
       <div className="mt-4 flex items-center gap-2">
         <Badge className="font-bold text-blue-700" variant={"secondary"}>
           {job.position}

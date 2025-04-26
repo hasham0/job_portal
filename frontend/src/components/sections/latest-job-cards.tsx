@@ -10,7 +10,7 @@ const LatestJobCards = ({ job, onClick }: Props) => {
   const company = job?.company as unknown as CompanyTS;
   return (
     <div
-      className="cursor-pointer rounded-md border border-gray-600 bg-white p-5 shadow-xl"
+      className="cursor-pointer rounded-md border border-gray-400 bg-white p-5 shadow-xl"
       onClick={onClick}
     >
       <div>

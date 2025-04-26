@@ -91,15 +91,20 @@ export default function JobDescription({}: Props) {
     <div className="mx-auto my-8 max-w-7xl px-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold">{singleJobDetails?.title}</h1>
+          <h1 className="text-xl font-bold capitalize">
+            {singleJobDetails?.title}
+          </h1>
           <div className="mt-4 flex items-center gap-2">
             <Badge className="font-bold text-blue-700" variant={"secondary"}>
+              <span className="text-black">Positions :</span>
               {singleJobDetails?.position}
             </Badge>
             <Badge className="font-bold text-red-700" variant={"secondary"}>
+              <span className="text-black">Job Type:</span>
               {singleJobDetails?.jobType}
             </Badge>
             <Badge className="text-bermuda font-bold" variant={"secondary"}>
+              <span className="text-black">Salary:</span>
               {singleJobDetails?.salary}
             </Badge>
           </div>
@@ -113,7 +118,7 @@ export default function JobDescription({}: Props) {
         </Button>
       </div>
       <h1 className="my-4 border-y-2 border-y-gray-400 py-4 text-xl font-medium">
-        {singleJobDetails?.description}
+        <span>Positions</span> {singleJobDetails?.description}
       </h1>
       <div>
         <h2 className="my-1 font-bold">

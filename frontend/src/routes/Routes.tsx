@@ -16,11 +16,13 @@ import { createBrowserRouter } from "react-router-dom";
 import JobUpdate from "@/pages/admin/JobUpdate";
 import JobsCreate from "@/pages/admin/JobsCreate";
 import Applicants from "@/pages/admin/Applicants";
+import Error from "@/pages/Error";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: MainLayout,
+    errorElement: <Error />,
     children: [
       {
         index: true,
