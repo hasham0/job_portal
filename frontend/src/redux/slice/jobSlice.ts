@@ -8,21 +8,27 @@ interface JobStateTS {
   allAdminJobs: Array<JobsTS>;
   singleJobDetails: JobsTS;
   serachJobByText: string;
+  searchJobQueryByKeyword: string;
+  keywordJobs: Array<JobsTS>;
   filterJobs: Array<JobsTS>;
 
   setLoading?: (loading: boolean) => void;
   setAllJobs?: () => void;
   setJobDetails?: () => void;
-  setSearchJobByText?: (text: string) => void;
+  setSearchJobByText?: () => void;
   setAllAdminJobs?: () => void;
   setRemoveJob?: (_id: string) => void;
   setUpdateJob?: () => void;
+  setSearchJobQueryByKeyword?: () => void;
+  setKeywordJobs?: () => void;
   setFilterjobByText?: () => void;
 }
 
 // Define the initial state using that type
 const initialState: JobStateTS = {
   loading: false,
+  searchJobQueryByKeyword: "",
+  keywordJobs: [],
   allJobs: [],
   filterJobs: [],
   allAdminJobs: [],
@@ -102,6 +108,12 @@ export const jobSlice = createSlice({
         state.filterJobs = filteredJobs;
       }
     },
+    setSearchJobQueryByKeyword: (state, action: PayloadAction<string>) => {
+      state.searchJobQueryByKeyword = action.payload;
+    },
+    setKeywordJobs: (state, action: PayloadAction<JobsTS[]>) => {
+      state.keywordJobs = action.payload;
+    },
   },
 });
 
@@ -110,6 +122,8 @@ export const {
   setAllJobs,
   setJobDetails,
   setSearchJobByText,
+  setSearchJobQueryByKeyword,
+  setKeywordJobs,
   setAllAdminJobs,
   setRemoveJob,
   setUpdateJob,

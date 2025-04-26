@@ -10,6 +10,7 @@ type Props = {};
 
 export default function Home({}: Props) {
   useGetAllJobs();
+
   const { user } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   useEffect(() => {
@@ -17,6 +18,7 @@ export default function Home({}: Props) {
       navigate("/admin/companies");
     }
   }, []);
+
   return (
     <div>
       <HeroSection />

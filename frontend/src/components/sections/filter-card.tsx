@@ -26,6 +26,9 @@ const FilterCard = () => {
 
   useEffect(() => {
     dispatch(setSearchJobByText("All"));
+    return () => {
+      dispatch(setSearchJobByText(""));
+    };
   }, [dispatch]);
 
   return (

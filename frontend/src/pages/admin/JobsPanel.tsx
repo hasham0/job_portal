@@ -32,6 +32,9 @@ export default function JobsPanel({}: Props) {
   const keyword = form.watch("keyword");
   useEffect(() => {
     dispatch(setSearchJobByText(keyword));
+    return () => {
+      setSearchJobByText("");
+    };
   }, [keyword]);
 
   return (

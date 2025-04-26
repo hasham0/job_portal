@@ -12,7 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { searchSchema, SearchSchemaTS } from "@/schemas/SearchZodSchema";
 import { Search } from "lucide-react";
 import { useAppDispatch } from "@/redux/hooks/hooks";
-import { setSearchJobByText } from "@/redux/slice/jobSlice";
+import { setSearchJobQueryByKeyword } from "@/redux/slice/jobSlice";
 import { useNavigate } from "react-router-dom";
 
 type Props = {};
@@ -27,7 +27,7 @@ const HeroSection = ({}: Props) => {
     },
   });
   const onSubmit: SubmitHandler<SearchSchemaTS> = (data) => {
-    dispatch(setSearchJobByText(data.keyword));
+    dispatch(setSearchJobQueryByKeyword(data.keyword));
     navigate("/browse");
   };
 

@@ -1,10 +1,12 @@
 import { useAppSelector } from "@/redux/hooks/hooks";
 import LatestJobCards from "./latest-job-cards";
+import { useNavigate } from "react-router-dom";
 
 type Props = {};
 
 const LatestJobs = ({}: Props) => {
   const { allJobs } = useAppSelector((state) => state.job);
+  const navigate = useNavigate();
   return (
     <div className="mx-auto my-20 max-w-7xl">
       <h1 className="m-5 text-center text-4xl font-bold lg:text-start">
@@ -16,9 +18,15 @@ const LatestJobs = ({}: Props) => {
             No Job Available
           </span>
         ) : (
-          allJobs
-            .slice(0, 6)
-            .map((job) => <LatestJobCards job={job} key={job._id} />)
+          allJobs.slice(0, 6).map((job) => (
+            <LatestJobCards
+              key={job._id}
+              onClick={() => {
+                navigate(`/description/${job._id}`);
+              }}
+              job={job}
+            />
+          ))
         )}
       </div>
     </div>

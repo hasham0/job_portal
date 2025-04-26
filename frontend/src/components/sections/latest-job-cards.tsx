@@ -2,14 +2,17 @@ import { Badge } from "@/components/ui/badge";
 import { CompanyTS, JobsTS } from "@/types";
 
 type Props = {
+  onClick: () => void;
   job: JobsTS;
 };
 
-const LatestJobCards = ({ job }: Props) => {
+const LatestJobCards = ({ job, onClick }: Props) => {
   const company = job?.company as unknown as CompanyTS;
-
   return (
-    <div className="cursor-pointer rounded-md border border-gray-200 bg-white p-5 shadow-xl">
+    <div
+      className="cursor-pointer rounded-md border border-gray-600 bg-white p-5 shadow-xl"
+      onClick={onClick}
+    >
       <div>
         <h1 className="text-lg font-medium">{company.name}</h1>
         <p className="text-sm text-gray-500">Pakistan</p>
